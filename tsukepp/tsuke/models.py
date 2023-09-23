@@ -11,7 +11,7 @@ class ItemCategory(models.Model):
         verbose_name_plural = "品目"
 
     def __str__(self):
-        return self.category
+        return str(self.category)
 
 
 class Tsuke(models.Model):
