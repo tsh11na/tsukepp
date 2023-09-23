@@ -10,6 +10,7 @@
 
 <!DOCTYPE html>
 <html lang="ja">
+  <title>{% block title %}{% endblock title %}</title>
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -123,13 +124,31 @@
               <a class="nav-link scrollto" href={% url "tsuke:create" %}>ツケる</a>
             </li>
             <li>
-              <a class="nav-link scrollto" href={% url "tsuke:index" %}>支払う（工事中）</a>
+              <a class="nav-link scrollto" href={% url "tsuke:pay" %}>支払う</a>
             </li>
             <li>
               <a class="nav-link scrollto" href={% url "tsuke:history" %}>履歴を見る</a>
             </li>
-            <li>
+            {% if user.id %}
+            <li class="dropdown">
+              <a href="#"><span>{{ user }}</span> <i class="bi bi-chevron-right"></i></a>
+              <ul>
+                {% comment %} <li>
+                  <a href="#">パスワード変更</a>
+                </li> {% endcomment %}
+                <li>
+                  <a href={% url "account_logout" %}>ログアウト</a>
+                </li>
+              </ul>
             </li>
+            {% else %}
+            <li>
+              <a class="nav-link scrollto" href={% url "account_login" %}>ログイン</a>
+            </li>
+            <li>
+              <a class="nav-link scrollto" href={% url "account_signup" %}>登録</a>
+            </li>
+            {% endif %}
             {% comment %} <li class="dropdown">
               <a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
               <ul>
@@ -178,8 +197,8 @@
         </nav>
         <!-- .navbar -->
       </div>
+      {% block header %}{% endblock header %}
     </header>
-    {% block header %}{% endblock header %}
     <!-- End Header -->
     {% block contents %}
     {% endblock contents %}
