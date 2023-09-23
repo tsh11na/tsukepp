@@ -6,8 +6,6 @@ import django_heroku
 
 DEBUG = False
 
-django_heroku.settings(locals())
-
 ALLOWED_HOSTS = ['.herokuapp.com']
 
 MIDDLEWARE = [
@@ -22,18 +20,6 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
-DATABASES = {
-# https://code.djangoproject.com/ticket/33685
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'name',
-        'HOST': 'host',
-        'USER': 'user',
-        'PORT': '',
-        'PASSWORD': '',
-    }
-}
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # STORAGES = {
@@ -41,8 +27,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 #         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
 #     },
 # }
-
 DATABASES = {
     'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
 
+django_heroku.settings(locals())
