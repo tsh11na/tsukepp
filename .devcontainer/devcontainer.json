@@ -38,6 +38,6 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": {
-		"pip": "pip install -r requirements.txt",
+		"pip": "pip install -r requirements.txt"
 	}
 }
