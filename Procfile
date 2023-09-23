@@ -1,1 +1,1 @@
-web: gunicorn tsukepp.wsgi
+web: gunicorn tsukepp.wsgi --log-file - 
