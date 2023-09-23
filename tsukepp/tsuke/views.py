@@ -10,6 +10,7 @@ from django.shortcuts import render
 from .models import Tsuke
 from .forms import TsukeCreateForm
 
+
 class IndexView(generic.TemplateView):
     """トップページ"""
     template_name = "tsuke/index.html"
@@ -17,7 +18,7 @@ class IndexView(generic.TemplateView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
-        unpaid_tsuke_list = Tsuke.objects.filter(user=self.request.user, is_paid=False)
+        unpaid_tsuke_list = Tsuke.objects.filter(user=self.request.user.id, is_paid=False)
         
         context["unpaid_amount"] = unpaid_tsuke_list.aggregate(Sum("amount"))
         context["unpaid_count"] = len(unpaid_tsuke_list)
