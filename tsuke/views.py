@@ -1,17 +1,17 @@
 from typing import Any
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.db.models.query import QuerySet
-from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib import messages
-from django.urls import reverse_lazy
+from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponseNotAllowed
+from django.urls import reverse_lazy
+from django.views import generic
 
-
+from .forms import TsukeCreateForm, TsukePayConfirmForm, TsukePaySelectForm
 from .models import Tsuke
-from .forms import TsukeCreateForm, TsukePaySelectForm, TsukePayConfirmForm
 
 
 class IndexView(generic.TemplateView):
@@ -37,6 +37,7 @@ class TsukeHistoryView(LoginRequiredMixin, generic.ListView):
     """ツケ履歴"""
     model = Tsuke
     template_name = 'tsuke/history.html'
+    # paginate_by = 5
 
     def get_queryset(self) -> QuerySet[Any]:
         return Tsuke.objects.filter(user=self.request.user).order_by("-purchase_date")
@@ -63,16 +64,14 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
 @login_required
 def tsuke_pay_select(request):
     """清算選択画面"""
-    # TODO LoginRequired
     form = TsukePaySelectForm(user=request.user)
-    tsuke_list = form.fields['tsuke_list'].queryset
+    tsuke_list = form.fields['tsuke_list'].queryset.order_by("-purchase_date")
 
     return render(request, "tsuke/pay_select.html", {"tsuke_list": tsuke_list})
 
 @login_required
 def tsuke_pay_confirm(request):
     """清算確認画面"""
-    # TODO LoginRequired
     selected_ids = request.POST.getlist("tsuke_list")
 
     # 確認画面
