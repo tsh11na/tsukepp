@@ -16,35 +16,36 @@
   <main id="main">
     <section id="about" class="about">
       <div class="container">
-        <table id="history" class="table table-hover">
-          <thead>
-            <tr>
-              <th>購入日時</th>
-              <th>金額</th>
-              <th>品目</th>
-              <th>メモ</th>
-              <th>清算</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for tsuke in tsuke_list %}
+        <div class="table-responsive">
+          <table id="history" class="table table-hover">
+            <thead>
               <tr>
-                <td>{{ tsuke.purchase_date }}</td>
-                <td>{{ tsuke.amount }}</td>
-                <td>{{ tsuke.category }}</td>
-                <td>{{ tsuke.note }}</td>
-                <td>
-                  {% if tsuke.is_paid %}
-                    済
-                  {% else %}
-                    未
-                  {% endif %}
-                </td>
+                <th>購入日時</th>
+                <th>金額</th>
+                <th>品目</th>
+                <th>メモ</th>
+                <th>清算</th>
               </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
+            </thead>
+            <tbody>
+              {% for tsuke in tsuke_list %}
+                <tr>
+                  <td>{{ tsuke.purchase_date|date:'y/n/j H:i' }}</td>
+                  <td>{{ tsuke.amount }}</td>
+                  <td>{{ tsuke.category }}</td>
+                  <td>{{ tsuke.note }}</td>
+                  <td>
+                    {% if tsuke.is_paid %}
+                      済
+                    {% else %}
+                      未
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
         <!-- ページネーション -->
         <nav aria-label="Page navigation example">
           {% if is_paginated %}
@@ -54,9 +55,9 @@
                   <a class="page-link" href="?page={{ page_obj.previous_page_number }}"><span aria-hidden="true">&laquo;</span></a>
                 </li>
               {% else %}
-              <li class="page-item disabled">
-                <a class="page-link"><span aria-hidden="true">&laquo;</span></a>
-              </li>
+                <li class="page-item disabled">
+                  <a class="page-link"><span aria-hidden="true">&laquo;</span></a>
+                </li>
               {% endif %}
               <!-- ページ数標示 -->
               {% for page_num in page_obj.paginator.page_range %}
@@ -75,15 +76,14 @@
                 <li class="page-item">
                   <a class="page-link" href="?page={{ page_obj.next_page_number }}"><span aria-hidden="true">&raquo;</span></a>
                 </li>
-                {% else %}
+              {% else %}
                 <li class="page-item disabled">
                   <a class="page-link"><span aria-hidden="true">&raquo;</span></a>
                 </li>
               {% endif %}
             </ul>
+          {% endif %}
         </nav>
-        {% endif %}
-
       </div>
     </section>
     {% comment %} <script>$("#history").DataTable();</script> {% endcomment %}

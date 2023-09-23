@@ -8,7 +8,7 @@
       <div class="container">
       <form action="{% url 'tsuke:pay_confirm' %}" method="post">
       {% csrf_token %}
-      <h3>清算するツケにチェックを入れてください。</h3>
+      <h4>清算するツケに✓を入れてください。</h4>
        <!-- https://medium.com/@alfarhanzahedi/customizing-modelmultiplechoicefield-in-a-django-form-96e3ae7e1a07-->       
        <table id="unpaid-list" class="table table-hover">
          <thead>

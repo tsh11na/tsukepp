@@ -7,13 +7,14 @@
 {% endblock header %}
 
 {% block contents %}
+<main id="main">
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center">
+  <section id="hero" class="align-items-center">
 
     {% if user.id %}
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+        <div class="col-lg-6 pt-0 pt-lg-0">
           <h1>ようこそ {{user}} さん </h1>
           <h2>現在のツケ 
             {% if unpaid_amount.amount__sum %}
@@ -32,8 +33,8 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-          <h1>Tsukeppへようこそ！ </h1>
-          <h2></h2>
+          <h1>Welcome!</h1>
+          <h2>ツケ管理アプリ Tsukepp にようこそ！</h2>
             <div class="d-flex">
               <a href={% url "account_login" %} class="btn-get-started scrollto">ログイン</a>
             </div>
@@ -41,14 +42,11 @@
       </div>
     </div>
     {% endif %}
-
-  </section><!-- End Hero -->
+  </section>
   
-    <main id="main">
     <!-- ======= Featured Services Section ======= -->
     <section id="menu" class="featured-services">
       <div class="container">
-
         <div class="row">
           <div class="col-lg-4 col-md-6">
             <div class="icon-box">
