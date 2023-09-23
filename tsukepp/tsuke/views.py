@@ -74,13 +74,13 @@ def tsuke_pay_confirm(request):
     selected_ids = request.POST.getlist("selected_ids")
     checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
 
-    # 「支払う」ボタン押下時：決済処理
-    if request.method == "POST" and request.POST["page"] == "confirm":
-        form = TsukePayConfirmForm(request.POST)
-        form.fields["selected_ids"].queryset = checking_tsuke_list
+    # # 「支払う」ボタン押下時：決済処理
+    # if request.method == "POST":
+    #     form = TsukePayConfirmForm(request.POST)
+    #     form.fields["selected_ids"].queryset = checking_tsuke_list
 
-        if form.is_valid():
-            return redirect('tsuke:settle')
+    #     if form.is_valid():
+    #         return redirect('tsuke:settle')
 
     # 確認画面
     form = TsukePayConfirmForm(request.POST)

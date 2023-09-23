@@ -10,7 +10,6 @@
       <form action="{% url 'tsuke:pay_confirm' %}" method="post">
       {% csrf_token %}
         {{ form }}
-        <input type="hidden" name="page" value="select">
         <button type="submit">決定</button>
 
 {% comment %} 

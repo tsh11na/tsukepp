@@ -8,12 +8,12 @@
 {% block contents %}
   <div class="container">
     <section id="about" class="about">
-      <form action="{% url 'tsuke:pay_confirm' %}" method="post">
-        <input type="hidden" name="page" value="confirm">
+      <form action="{% url 'tsuke:settle' %}" method="post">
+        <input type="hidden" name="form" value={{ form }}>
         {% csrf_token %}
 
         {% comment %} {{ form }} {% endcomment %}
-
+{% comment %} 
         <h3>以下のツケを支払います。よろしいですか？</h3>
         <table id="history" class="table table-hover">
           <thead>
@@ -35,7 +35,7 @@
             {% endfor %}
           </tbody>
         </table>
-        <h4><b>合計金額: <span id="total"></span> 円</b></h4>
+        <h4><b>合計金額: <span id="total"></span> 円</b></h4> {% endcomment %}
         <button type="submit" class="btn btn-primary">支払う</button>
       </form>
     </section>
