@@ -1,9 +1,7 @@
 {% extends "tsuke/base.html" %}
 {% load static %}
 
-{% block title %}
-タイトル
-{% endblock title %}
+{% block title %}Tsukepp{% endblock title %}
 
 {% block header %}
 {% endblock header %}
@@ -31,7 +29,7 @@
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
             <div class="icon-box">
               <div class="icon"><i class="bx bx-file"></i></div>
-              <h4><a href="">支払う</a></h4>
+              <h4><a href={% url "tsuke:pay" %}>支払う</a></h4>
               <p>過去のツケを清算する</p>
             </div>
           </div>
