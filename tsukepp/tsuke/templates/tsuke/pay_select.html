@@ -1,0 +1,71 @@
+{% extends "tsuke/base.html" %}
+{% load static %}
+
+{% block title %}清算する | Tsukepp{% endblock title %}
+
+{% block contents %}
+    <section id="about" class="about">
+      <div class="container">
+      <form action="{% url 'tsuke:pay_confirm' %}" method="post">
+      {% csrf_token %}
+      <h3>清算するツケにチェックを入れてください。</h3>
+       <!-- https://medium.com/@alfarhanzahedi/customizing-modelmultiplechoicefield-in-a-django-form-96e3ae7e1a07-->       
+       <table id="unpaid-list" class="table table-hover">
+         <thead>
+            <tr>
+              <th id="check-col"></th>
+              {% comment %} <th id="id-col">ID</th> {% endcomment %}
+              <th id="amount-col">金額</th>
+              <th id="amount-col">品目</th>
+              <th id="purchase_date-col">購入日時</th>
+              <th id="note-col">メモ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% comment %} {% for tid, desc in form.tsuke_list.field.choices %} {% endcomment %}
+            {% for tsuke in tsuke_list %}
+              <tr>
+                <td><input type="checkbox" name="tsuke_list" value={{ tsuke.id }} checked></td>
+                {% comment %} <td>{{ tsuke.id }}</td> {% endcomment %}
+                <td>{{ tsuke.amount }} </td>
+                <td>{{ tsuke.category }} </td>
+                <td>{{ tsuke.purchase_date|date:"y/n/j H:i" }}</td>
+                <td>{{ tsuke.note }}</td>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <h4><b>合計金額: <span id="total"></span> 円</b></h4>
+        <button type="submit" class="btn btn-primary">決定</button>
+      </div>
+    </div>
+    </section>
+    <script> // from ChatGPT
+      // チェックボックスの要素を取得
+      const checkboxes = document.querySelectorAll('td:first-of-type input');
+      const totalDisplay = document.getElementById('total');
+      const amountIndex = document.getElementById("amount-col").cellIndex // 金額の列番号
+
+      // 合計を計算する関数
+      function calculateTotal() {
+        let total = 0;
+        checkboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            const row = checkbox.parentNode.parentNode; // チェックボックスの親要素の親要素 (行) を取得
+            const price = parseInt(row.cells[amountIndex].textContent); // 金額のセルのテキストを数値に変換
+            total += price;
+          }
+        });
+
+        // 合計を表示
+        totalDisplay.textContent = total;
+      }
+
+      // チェックボックスの状態が変更されたときに合計を計算
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', calculateTotal);
+      });
+      calculateTotal();
+    </script>
+{% endblock contents %}

@@ -1,0 +1,72 @@
+{% extends 'tsuke/base.html' %}
+{% load static %}
+
+{% block title %}
+  清算する | Tsukepp
+{% endblock %}
+
+{% block contents %}
+  <div class="container">
+    <section id="about" class="about">
+      <form action="{% url 'tsuke:settle' %}" method="post">
+        {% csrf_token %}
+
+        <h3>以下のツケを清算します。よろしいですか？</h3>
+        <table id="pay-list" class="table table-hover">
+          <thead>
+            <tr>
+              {% comment %} <th id="id-col">ID</th> {% endcomment %}
+              <th id="amount-col">金額</th>
+              <th id="amount-col">品目</th>
+              <th id="purchase_date-col">購入日時</th>
+              <th id="note-col">メモ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for tsuke in tsuke_list %}
+              <input type="hidden" name="tsuke_list" value={{ tsuke.id }} checked>
+              <tr>
+                {% comment %} <td>{{ tsuke.id }}</td> {% endcomment %}
+                <td>{{ tsuke.amount }}</td>
+                <td>{{ tsuke.category }}</td>
+                <td>{{ tsuke.purchase_date|date:"y/n/j H:i" }}</td>
+                <td>{{ tsuke.note }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <h4><b>合計金額: <span id="total"></span> 円</b></h4>
+        <button type="submit" class="btn btn-primary">清算する</button>
+      </form>
+    </section>
+    <script>
+        // from ChatGPT
+        // ページの読み込みが完了したら実行
+        document.addEventListener('DOMContentLoaded', function () {
+          // テーブル要素を取得
+          const table = document.querySelector('table')
+          const totalDisplay = document.getElementById('total')
+          const amountIndex = document.getElementById('amount-col').cellIndex // 金額の列番号
+        
+          // 合計を格納する変数を初期化
+          let total = 0
+        
+          // テーブルの各行をループ処理
+          var rows = table.querySelectorAll('tbody tr')
+          rows.forEach(function (row) {
+            // 各行の数量列のセルを取得
+            var cell = row.cells[amountIndex]
+        
+            // セルの内容を整数に変換して合計に加える
+            total += parseInt(cell.textContent)
+          })
+        
+          // // 合計を表示するセルを取得
+          // const totalCell = table.querySelector("tfoot td:nth-child(2)");
+        
+          // 合計を表示
+          totalDisplay.textContent = total
+        })
+      </script>
+  </div>
+{% endblock %}
