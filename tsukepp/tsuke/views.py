@@ -6,6 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+
 
 from .models import Tsuke
 from .forms import TsukeCreateForm, TsukePaySelectForm
@@ -78,9 +80,25 @@ def tsuke_pay_select(request):
 
 def tsuke_pay_confirm(request):
     """支払い確認画面"""
+
     selected_ids = request.POST.getlist("selected_ids")
     checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
+
     return render(request, "tsuke/pay_confirm.html", {"tsuke_list": checking_tsuke_list})
+
+def settle(request):
+    """決済処理"""
+
+    try: # 更新処理
+        # selected_ids = request.POST.getlist("selected_ids")
+        # checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
+        
+
+    except(KeyError, Tsuke.DoesNotExist):
+        pass  # TODO エラー処理
+
+    else:  # 成功時
+        return HttpResponseRedirect(reverse_lazy("tsuke:index"))
 
 # class TsukePayConfirmView(LoginRequiredMixin, generic.FormView):
 #     template_name = "tsuke/pay_confirm.html"
