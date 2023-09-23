@@ -20,7 +20,7 @@
           <tbody>
             {% for x in tsuke_list %}
               <tr>
-                <td>x</td>
+                <td><input type="checkbox" name="pay" id="item{{forloop.counter}}" checked></td>
                 <td>{{ x.purchase_datetime }}</td>
                 <td>{{ x.amount }}</td>
                 <td>{{ x.note }}</td>
@@ -30,6 +30,35 @@
           </tbody>
         </table>
       </div>
+      <p>合計金額: <span id="total"></span> 円</p>
     </div>
     </section>
+    <script> <!-- from ChatGPT -->
+      // チェックボックスの要素を取得
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const totalDisplay = document.getElementById('total');
+      const amountRowNo = 2  // FIXME: 本当は列名で指定したい
+
+      // 合計を計算する関数
+      function calculateTotal() {
+        let total = 0;
+        checkboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            const row = checkbox.parentNode.parentNode; // チェックボックスの親要素の親要素 (行) を取得
+            const price = parseFloat(row.cells[amountRowNo].textContent); // 金額のセルのテキストを数値に変換
+
+            total += price;
+          }
+        });
+
+        // 合計を表示
+        totalDisplay.textContent = total;
+      }
+
+      // チェックボックスの状態が変更されたときに合計を計算
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', calculateTotal);
+      });
+      calculateTotal();
+    </script>
 {% endblock contents %}
