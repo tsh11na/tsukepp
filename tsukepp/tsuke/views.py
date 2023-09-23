@@ -64,5 +64,6 @@ def tsuke_pay(request):
 
 
 def tsuke_confirm(request):
-    # unpaid_tsuke_list = Tsuke.objects.filter(user=request.user, is_paid=False)
-    return render(request, "tsuke/pay_confirm.html")
+    check_ids = request.POST["pay"]
+    checking_tsuke_list = Tsuke.objects.filter(id__in=check_ids)
+    return render(request, "tsuke/pay_confirm.html", {"tsuke_list": checking_tsuke_list})
