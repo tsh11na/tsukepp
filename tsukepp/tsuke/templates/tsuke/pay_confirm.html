@@ -4,9 +4,14 @@
 {% block title %}支払う | Tsukepp{% endblock title %}
 
 {% block contents %}
+
+<div class="container">
     <section id="about" class="about">
-      <div class="container">
-      <h2>以下のツケを支払います。よろしいですか？</h2>
+        <h2>以下のツケを支払います。よろしいですか？</h2>
+        {{tsuke_list}}
+    </section>
+</div>
+    {% comment %} <section id="about" class="about">
       <div class="container">
         <table id="history" class="table table-hover">
           <thead>
@@ -60,5 +65,5 @@
     // 合計を表示
     totalDisplay.textContent = total;
   });
-    </script>
+    </script> {% endcomment %}
 {% endblock contents %}

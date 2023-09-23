@@ -6,8 +6,14 @@
 {% block contents %}
     <section id="about" class="about">
       <div class="container">
+      {{ items }}
       <form action="{% url 'tsuke:pay_confirm' %}" method="post">
-    {% csrf_token %}
+      {% csrf_token %}
+        {{ form }}
+
+        <button type="submit">決定</button>
+
+{% comment %} 
       <h2>支払うツケを選択してください。</h2>
       <div class="container">
         <table id="history" class="table table-hover">
@@ -64,5 +70,5 @@
         checkbox.addEventListener('change', calculateTotal);
       });
       calculateTotal();
-    </script>
+    </script> {% endcomment %}
 {% endblock contents %}

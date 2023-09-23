@@ -8,5 +8,9 @@ class TsukeCreateForm(forms.ModelForm):
         model = Tsuke
         fields=("amount", "note",)
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
+
+class TsukePaySelectForm(forms.Form):
+    selected_ids = forms.ModelMultipleChoiceField(
+        queryset=None,  # 空のクエリセット（views.pyで選択するため）
+        widget=forms.CheckboxSelectMultiple,  # チェックボックスを使って選択
+    )

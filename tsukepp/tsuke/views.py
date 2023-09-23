@@ -5,10 +5,10 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Tsuke
-from .forms import TsukeCreateForm
+from .forms import TsukeCreateForm, TsukePaySelectForm
 
 
 class IndexView(generic.TemplateView):
@@ -57,13 +57,28 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
         messages.error(self.request, "ツケの登録に失敗しました。")
         return super().form_invalid(form)
 
+def tsuke_pay_select(request):
+    """支払い選択画面"""
+    items = Tsuke.objects.filter(user=request.user, is_paid=False)
 
-def tsuke_pay(request):
-    unpaid_tsuke_list = Tsuke.objects.filter(user=request.user, is_paid=False)
-    return render(request, "tsuke/pay_select.html", {"tsuke_list": unpaid_tsuke_list})
+    # if request.method == 'POST':
+    #     form = TsukePaySelectForm(request.POST)
+    #     form.fields['selected_ids'].queryset = items
+    #     if form.is_valid():
+    #         print("FORM VALID")
+    #         selected_ids = request.POST.getlist("selected_ids")
+    #         # 選択されたIDを次のページに渡す
+    #         return redirect('tsuke:pay_confirm', selected_ids=selected_ids)
 
+    # else:
+    form = TsukePaySelectForm()
+    form.fields['selected_ids'].queryset = items
+    
+    return render(request, "tsuke/pay_select.html", {"form": form})
 
-def tsuke_confirm(request):
-    check_ids = request.POST["pay"]
-    checking_tsuke_list = Tsuke.objects.filter(id__in=check_ids)
-    return render(request, "tsuke/pay_confirm.html", {"tsuke_list": checking_tsuke_list})
+# def tsuke_pay_confirm(request):
+#     """支払い確認画面"""
+#     selected_ids = request.POST.getlist("selected_ids")
+#     checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
+#     return render(request, "tsuke/pay_confirm.html", {"tsuke_list": checking_tsuke_list})
+
