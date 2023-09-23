@@ -2,6 +2,7 @@ from django import forms
 
 from .models import Tsuke
 
+
 class TsukeCreateForm(forms.ModelForm):
     class Meta:
         model = Tsuke

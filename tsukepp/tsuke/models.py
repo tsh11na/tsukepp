@@ -15,4 +15,4 @@ class Tsuke(models.Model):
         verbose_name_plural = "ツケ"
 
     def __str__(self):
-        return f"{self.purchase_datetime} ({self.amount})"
+        return f"{self.amount}円{'（' + self.note + ')' if self.note else ''}"
