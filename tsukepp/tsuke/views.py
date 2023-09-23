@@ -1,4 +1,5 @@
 from typing import Any
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.db.models.query import QuerySet
 from django.views import generic
@@ -21,10 +22,10 @@ class IndexView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
 
         unpaid_tsuke_list = Tsuke.objects.filter(user=self.request.user.id, is_paid=False)
-        
+
         context["unpaid_amount"] = unpaid_tsuke_list.aggregate(Sum("amount"))
         context["unpaid_count"] = len(unpaid_tsuke_list)
-    
+
         if self.request.user.is_authenticated:
             context["user"] = self.request.user
         else:
@@ -32,7 +33,7 @@ class IndexView(generic.TemplateView):
         return context
 
 
-class TsukeHistoryView(LoginRequiredMixin, generic.ListView):  # TODO: LoginRequiredMixin
+class TsukeHistoryView(LoginRequiredMixin, generic.ListView):
     """ツケ履歴"""
     model = Tsuke
     template_name = 'tsuke/history.html'
@@ -54,11 +55,12 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
         tsuke.save()
         messages.success(self.request, "ツケを登録しました。")
         return super().form_valid(form)
-    
+
     def form_invalid(self, form):
         messages.error(self.request, "ツケの登録に失敗しました。")
         return super().form_invalid(form)
 
+@login_required
 def tsuke_pay_select(request):
     """清算選択画面"""
     # TODO LoginRequired
@@ -67,6 +69,7 @@ def tsuke_pay_select(request):
 
     return render(request, "tsuke/pay_select.html", {"tsuke_list": tsuke_list})
 
+@login_required
 def tsuke_pay_confirm(request):
     """清算確認画面"""
     # TODO LoginRequired
@@ -79,6 +82,7 @@ def tsuke_pay_confirm(request):
     # https://teratail.com/questions/69603
     return render(request, "tsuke/pay_confirm.html", {"tsuke_list": tsuke_list})
 
+@login_required
 def settle(request):
     """決済処理"""
 
