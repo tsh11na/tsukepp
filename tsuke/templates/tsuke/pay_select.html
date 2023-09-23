@@ -8,7 +8,7 @@
       <div class="container">
       <form action="{% url 'tsuke:pay_confirm' %}" method="post">
       {% csrf_token %}
-      <h4>清算するツケに✓を入れてください。</h4>
+      <h4>清算するツケを選んでください。</h4>
        <!-- https://medium.com/@alfarhanzahedi/customizing-modelmultiplechoicefield-in-a-django-form-96e3ae7e1a07-->       
        <table id="unpaid-list" class="table table-hover">
          <thead>
@@ -25,7 +25,7 @@
             {% comment %} {% for tid, desc in form.tsuke_list.field.choices %} {% endcomment %}
             {% for tsuke in tsuke_list %}
               <tr>
-                <td><input type="checkbox" name="tsuke_list" value={{ tsuke.id }} checked></td>
+                <td><input type="checkbox" name="tsuke_list" value={{ tsuke.id }} checked class="row-checkbox"></td>
                 {% comment %} <td>{{ tsuke.id }}</td> {% endcomment %}
                 <td>{{ tsuke.amount }} </td>
                 <td>{{ tsuke.category }} </td>
@@ -41,12 +41,12 @@
       </div>
     </div>
     </section>
-    <script> // from ChatGPT
+    <script>
       // チェックボックスの要素を取得
       const checkboxes = document.querySelectorAll('td:first-of-type input');
       const totalDisplay = document.getElementById('total');
-      const amountIndex = document.getElementById("amount-col").cellIndex // 金額の列番号
-
+      const amountIndex = document.getElementById("amount-col").cellIndex; // 金額の列番号
+    
       // 合計を計算する関数
       function calculateTotal() {
         let total = 0;
@@ -57,15 +57,28 @@
             total += price;
           }
         });
-
+    
         // 合計を表示
         totalDisplay.textContent = total;
       }
-
+    
       // チェックボックスの状態が変更されたときに合計を計算
       checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', calculateTotal);
       });
+    
+      // 行をクリックしたときにチェックボックスをトグルする
+      const rows = document.querySelectorAll('tr');
+      rows.forEach(row => {
+        row.addEventListener('click', () => {
+          const checkbox = row.querySelector('input[type="checkbox"]');
+          checkbox.checked = !checkbox.checked;
+          calculateTotal();
+        });
+      });
+    
+      // 初期合計計算
       calculateTotal();
     </script>
+    
 {% endblock contents %}
