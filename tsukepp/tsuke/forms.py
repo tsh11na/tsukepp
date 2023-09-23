@@ -1,7 +1,7 @@
 from django import forms
 
 from .models import Tsuke
-from .custom import CustomModelChoiceField
+
 
 class TsukeCreateForm(forms.ModelForm):
     """ツケの登録"""
@@ -12,7 +12,7 @@ class TsukeCreateForm(forms.ModelForm):
 
 class TsukePaySelectForm(forms.Form):
     """支払うツケの選択"""
-    tsuke_list = CustomModelChoiceField(
+    tsuke_list = forms.ModelMultipleChoiceField(
         queryset=Tsuke.objects.none(),  # 空のクエリセット（views.pyで選択するため）
         widget=forms.CheckboxSelectMultiple,  # チェックボックスを使って選択
         
@@ -26,7 +26,7 @@ class TsukePaySelectForm(forms.Form):
 
 class TsukePayConfirmForm(forms.Form):
     """支払うツケの確認"""
-    tsuke_list = CustomModelChoiceField(
+    tsuke_list = forms.ModelMultipleChoiceField(
         queryset=Tsuke.objects.none(),
         widget=forms.CheckboxSelectMultiple,
     )

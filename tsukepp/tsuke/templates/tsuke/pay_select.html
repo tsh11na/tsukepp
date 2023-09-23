@@ -10,23 +10,24 @@
       {% csrf_token %}
       <h3>支払うツケを選択してください。</h3>
        <!-- https://medium.com/@alfarhanzahedi/customizing-modelmultiplechoicefield-in-a-django-form-96e3ae7e1a07-->       
-       <table id="pay-list" class="table table-hover">
+       <table id="unpaid-list" class="table table-hover">
          <thead>
             <tr>
               <th id="check-col">支払う</th>
               <th id="id-col">ID</th>
-              <th id="purchase_datetime-col">購入日時</th>
               <th id="amount-col">金額</th>
+              <th id="purchase_datetime-col">購入日時</th>
               <th id="note-col">メモ</th>
             </tr>
           </thead>
           <tbody>
-            {% for tid, desc, tsuke in form.tsuke_list.field.choices %}
+            {% comment %} {% for tid, desc in form.tsuke_list.field.choices %} {% endcomment %}
+            {% for tsuke in tsuke_list %}
               <tr>
-                <td><input type="checkbox" name="tsuke-list" value={{ tid }} checked></td>
-                <td>{{ tid }}</td>
-                <td>{{ tsuke.purchase_datetime }}</td>
+                <td><input type="checkbox" name="tsuke_list" value={{ tsuke.id }} checked></td>
+                <td>{{ tsuke.id }}</td>
                 <td>{{ tsuke.amount }} </td>
+                <td>{{ tsuke.purchase_datetime }}</td>
                 <td>{{ tsuke.note }}</td>
                 </td>
               </tr>

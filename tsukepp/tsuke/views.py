@@ -62,8 +62,9 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
 def tsuke_pay_select(request):
     """支払い選択画面"""
     form = TsukePaySelectForm(user=request.user)
+    tsuke_list = form.fields['tsuke_list'].queryset
 
-    return render(request, "tsuke/pay_select.html", {"form": form})
+    return render(request, "tsuke/pay_select.html", {"tsuke_list": tsuke_list})
 
 def tsuke_pay_confirm(request):
     """支払い確認画面"""
@@ -72,9 +73,10 @@ def tsuke_pay_confirm(request):
 
     # 確認画面
     form = TsukePayConfirmForm(request.POST, tsuke_ids=selected_ids)
+    tsuke_list = form.fields['tsuke_list'].queryset
 
     # https://teratail.com/questions/69603
-    return render(request, "tsuke/pay_confirm.html", {"form": form})
+    return render(request, "tsuke/pay_confirm.html", {"tsuke_list": tsuke_list})
 
 def settle(request):
     """決済処理"""

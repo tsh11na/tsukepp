@@ -21,7 +21,13 @@
 
         <div class="row">
           <div class="col-lg-12 pt-4 pt-lg-0 content">
-            <h3>現在のツケ {{unpaid_amount.amount__sum}} 円</h3>
+            <h3>現在のツケ 
+              {% if unpaid_amount.amount__sum %}
+                {{unpaid_amount.amount__sum}} 円
+                {% else %}
+                0 円
+                {% endif %}
+              </h3>
             <h4>（件数 {{unpaid_count}} 件） </h4>
           </div>
         </div>
