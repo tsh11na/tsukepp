@@ -8,10 +8,11 @@
 {% block contents %}
   <div class="container">
     <section id="about" class="about">
-      <form action="{% url 'tsuke:settle' %}" method="post">
+      <form action="{% url 'tsuke:pay_confirm' %}" method="post">
+        <input type="hidden" name="page" value="confirm">
         {% csrf_token %}
 
-        {{ form }}
+        {% comment %} {{ form }} {% endcomment %}
 
         <h3>以下のツケを支払います。よろしいですか？</h3>
         <table id="history" class="table table-hover">

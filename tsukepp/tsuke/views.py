@@ -74,23 +74,32 @@ def tsuke_pay_confirm(request):
     selected_ids = request.POST.getlist("selected_ids")
     checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
 
-    if request.method == "POST":
+    # 「支払う」ボタン押下時：決済処理
+    if request.method == "POST" and request.POST["page"] == "confirm":
         form = TsukePayConfirmForm(request.POST)
         form.fields["selected_ids"].queryset = checking_tsuke_list
 
         if form.is_valid():
             return redirect('tsuke:settle')
-    
-        else:
-            return HttpResponse("ERROR!")  # FIXME
 
+    # 確認画面
+    form = TsukePayConfirmForm(request.POST)
+    form.fields["selected_ids"].queryset = checking_tsuke_list
     return render(request, "tsuke/pay_confirm.html", {"form": form})
 
 def settle(request):
     """決済処理"""
 
     try: # 更新処理
-        pass  # TODO 実装
+        # 決済対象のツケを取得
+        selected_ids = request.POST.getlist("selected_ids")
+        checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
+
+        # 支払済に変更
+        for tsuke in checking_tsuke_list:
+            tsuke.is_paid = True
+
+        Tsuke.objects.bulk_update(checking_tsuke_list, fields=["is_paid"])
 
     except(KeyError, Tsuke.DoesNotExist):
         pass  # TODO エラー処理
