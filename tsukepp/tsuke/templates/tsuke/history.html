@@ -19,18 +19,20 @@
             <tr>
               <th>購入日時</th>
               <th>金額</th>
+              <th>品目</th>
               <th>メモ</th>
               <th>清算</th>
             </tr>
           </thead>
           <tbody>
-            {% for x in tsuke_list %}
+            {% for tsuke in tsuke_list %}
               <tr>
-                <td>{{ x.purchase_datetime }}</td>
-                <td>{{ x.amount }}</td>
-                <td>{{ x.note }}</td>
+                <td>{{ tsuke.purchase_datetime }}</td>
+                <td>{{ tsuke.amount }}</td>
+                <td>{{ tsuke.category }}</td>
+                <td>{{ tsuke.note }}</td>
                 <td>
-                  {% if x.is_paid %}
+                  {% if tsuke.is_paid %}
                     済
                   {% else %}
                     未

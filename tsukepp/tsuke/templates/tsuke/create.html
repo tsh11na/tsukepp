@@ -20,11 +20,15 @@
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="amount">金額</label>
-                <input type="text" name="amount" class="form-control" id="amount" required>
+                {{ form.amount }}
+              </div>
+              <div class="form-group col-md-6">
+                <label for="amount">品目</label>
+                {{ form.category }}
               </div>
               <div class="form-group mt-3">
                 <label for="name">メモ（任意）</label>
-                <textarea class="form-control" name="note" rows="10" required></textarea>
+                {{ form.note }}
               </div>
               <div class="my-3">
               </div>
