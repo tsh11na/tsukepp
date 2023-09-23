@@ -23,7 +23,8 @@
 				"ms-python.vscode-pylance",
 				"ms-python.pylint",
 				"batisteo.vscode-django",
-				"mhutchie.git-graph"
+				"mhutchie.git-graph",
+				"junstyle.vscode-django-support"
 			],
 			"settings": {
 				// "python.defaultInterpreterPath": "/usr/local/bin/python"
