@@ -10,6 +10,9 @@
     <section id="about" class="about">
       <form action="{% url 'tsuke:settle' %}" method="post">
         {% csrf_token %}
+
+        {{ form }}
+
         <h3>以下のツケを支払います。よろしいですか？</h3>
         <table id="history" class="table table-hover">
           <thead>

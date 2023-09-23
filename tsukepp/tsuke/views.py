@@ -6,11 +6,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 from .models import Tsuke
-from .forms import TsukeCreateForm, TsukePaySelectForm
+from .forms import TsukeCreateForm, TsukePaySelectForm, TsukePayConfirmForm
 
 
 class IndexView(generic.TemplateView):
@@ -61,20 +61,10 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
 
 def tsuke_pay_select(request):
     """支払い選択画面"""
-    items = Tsuke.objects.filter(user=request.user, is_paid=False)
+    unpaid_tsuke_list = Tsuke.objects.filter(user=request.user, is_paid=False)
 
-    # if request.method == 'POST':
-    #     form = TsukePaySelectForm(request.POST)
-    #     form.fields['selected_ids'].queryset = items
-    #     if form.is_valid():
-    #         print("FORM VALID")
-    #         selected_ids = request.POST.getlist("selected_ids")
-    #         # 選択されたIDを次のページに渡す
-    #         return redirect('tsuke:pay_confirm', selected_ids=selected_ids)
-
-    # else:
     form = TsukePaySelectForm()
-    form.fields['selected_ids'].queryset = items
+    form.fields['selected_ids'].queryset = unpaid_tsuke_list
     
     return render(request, "tsuke/pay_select.html", {"form": form})
 
@@ -84,15 +74,23 @@ def tsuke_pay_confirm(request):
     selected_ids = request.POST.getlist("selected_ids")
     checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
 
-    return render(request, "tsuke/pay_confirm.html", {"tsuke_list": checking_tsuke_list})
+    if request.method == "POST":
+        form = TsukePayConfirmForm(request.POST)
+        form.fields["selected_ids"].queryset = checking_tsuke_list
+
+        if form.is_valid():
+            return redirect('tsuke:settle')
+    
+        else:
+            return HttpResponse("ERROR!")  # FIXME
+
+    return render(request, "tsuke/pay_confirm.html", {"form": form})
 
 def settle(request):
     """決済処理"""
 
     try: # 更新処理
-        # selected_ids = request.POST.getlist("selected_ids")
-        # checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
-        
+        pass  # TODO 実装
 
     except(KeyError, Tsuke.DoesNotExist):
         pass  # TODO エラー処理
@@ -110,7 +108,7 @@ def settle(request):
 #         selected_ids = self.request.POST.getlist("selected_ids")
 #         checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
 
-#         # フォームを取得し、選択されたIDの一覧をセット
+#         # フォームを取得し、選択されたツケのリストをセット
 #         form = super().get_form(form_class)
 #         form.fields["tsuke_list"].queryset = checking_tsuke_list
 #         return form

@@ -16,9 +16,8 @@ class TsukePaySelectForm(forms.Form):
     )
 
 
-# class TsukePayConfirmForm(forms.Form):
-#     tsuke_list = forms.ModelMultipleChoiceField(
-#         queryset=None,
-#         widget=forms.HiddenInput,
-#         required=False  # 必須ではない
-#     )
+class TsukePayConfirmForm(forms.Form):
+    selected_ids = forms.ModelMultipleChoiceField(
+        queryset=None,
+        widget=forms.CheckboxSelectMultiple,
+    )
