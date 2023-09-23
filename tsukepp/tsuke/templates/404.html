@@ -1,0 +1,20 @@
+{% extends 'tsuke/base.html' %}
+{% load static %}
+
+{% block title %}Not found | Tsukepp{% endblock title %}
+
+{% block head %}
+<!-- DataTables (not working) -->
+{% comment %} <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script> {% endcomment %}
+{% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" /> {% endcomment %}
+{% comment %} <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> {% endcomment %}
+{% endblock head %}
+
+{% block contents %}
+<main id="main">
+    <section id="about" class="about">
+    <h3>ページが見つかりません</h3>
+    </section>
+    {% comment %} <script>$("#history").DataTable();</script> {% endcomment %}
+</main>
+{% endblock %}
