@@ -7,42 +7,50 @@
 {% endblock header %}
 
 {% block contents %}
-    <!-- ======= Services Section ======= -->
-    <section id="services" class="services section-bg">
+  <main id="main">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
       <div class="container">
 
-        <div class="section-title">
-          <span>メニュー</span>
-          <h2>メニュー</h2>
-          <p>Tsukeppにようこそ！操作を選択してください。</p>
-        </div>
-
         <div class="row">
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4><a href={% url "tsuke:create" %}>ツケる</a></h4>
-              <p>新しいツケを登録する</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-file"></i></div>
-              <h4><a href={% url "tsuke:pay" %}>支払う</a></h4>
-              <p>過去のツケを清算する</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-tachometer"></i></div>
-              <h4><a href={% url "tsuke:history" %}>履歴を見る</a></h4>
-              <p>ツケの履歴を確認する</p>
-            </div>
+          <div class="col-lg-12 pt-4 pt-lg-0 content">
+            <h3>現在のツケ {{unpaid_amount.amount__sum}} 円</h3>
+            <h4>（件数 {{unpaid_count}} 件） </h4>
           </div>
         </div>
 
       </div>
-    </section><!-- End Services Section -->
+    </section><!-- End About Section -->
+
+    <!-- ======= Featured Services Section ======= -->
+    <section id="featured-services" class="services">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-laptop"></i></div>
+              <h4><b><a href={% url "tsuke:create" %}>ツケる</a></b></h4>
+              <p class="description">新しいツケを登録する</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mt-4 mt-md-0">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-card-checklist"></i></div>
+              <h4><b><a href={% url "tsuke:pay" %}>支払う</a></b></h4>
+              <p class="description">過去のツケを清算する</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mt-4 mt-lg-0">
+            <div class="icon-box">
+              <div class="icon"><i class="bi bi-clipboard-data"></i></div>
+              <h4><b><a href={% url "tsuke:history" %}>履歴を見る</a></b></h4>
+              <p class="description">ツケの履歴を確認する</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Featured Services Section -->
+
+  </main>
 {% endblock contents %}

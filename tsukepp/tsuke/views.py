@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models import Sum, Count
 from django.db.models.query import QuerySet
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,6 +16,11 @@ class IndexView(generic.TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
+
+        unpaid_tsuke_list = Tsuke.objects.filter(user=self.request.user, is_paid=False)
+        
+        context["unpaid_amount"] = unpaid_tsuke_list.aggregate(Sum("amount"))
+        context["unpaid_count"] = len(unpaid_tsuke_list)
     
         if self.request.user.is_authenticated:
             context["user"] = self.request.user
