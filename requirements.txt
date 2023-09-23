@@ -1,4 +1,5 @@
 django>=4.2
 mysqlclient>=2.2
-django-allauth
-django-debug-toolbar
+django-allauth>=0.56.1
+django-debug-toolbar>=4.2.0
+pylint-django>=2.5.3
