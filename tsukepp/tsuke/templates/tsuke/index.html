@@ -1,2 +1,50 @@
-<!DOCTYPE html>
-Hello!!
+{% extends "tsuke/base.html" %}
+{% load static %}
+
+{% block title %}
+タイトル
+{% endblock title %}
+
+{% block header %}
+{% endblock header %}
+
+{% block contents %}
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services section-bg">
+      <div class="container">
+
+        <div class="section-title">
+          <span>メニュー</span>
+          <h2>メニュー</h2>
+          <p>操作を選択してください</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <h4><a href={% url "tsuke:create" %}>ツケる</a></h4>
+              <p>新しいツケを登録する</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-file"></i></div>
+              <h4><a href="">支払う</a></h4>
+              <p>過去のツケを清算する</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-tachometer"></i></div>
+              <h4><a href={% url "tsuke:history" %}>履歴を見る</a></h4>
+              <p>ツケの履歴を確認する</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+{% endblock contents %}

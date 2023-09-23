@@ -1,0 +1,35 @@
+{% extends "tsuke/base.html" %}
+{% load static %}
+
+{% block contents %}
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+    <div class="container">
+        
+        <div class="section-title">
+            <span>ツケる</span>
+            <h2>ツケる</h2>
+            <p>新しいツケを登録します</p>
+        </div>
+        
+        <div class="mt-5 mt-lg-0 d-flex align-items-stretch">
+          <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="amount">金額</label>
+                <input type="text" name="amount" class="form-control" id="amount" required>
+              </div>
+              <div class="form-group mt-3">
+                <label for="name">メモ</label>
+                <textarea class="form-control" name="note" rows="10" required></textarea>
+              </div>
+              <div class="my-3">
+              </div>
+                <div class="text-center"><button class="btn btn-outline-success btn-lg" type="submit">登録</button></div>
+              </form>
+          </div>
+        </div>
+      </section><!-- End Contact Section -->
+
+{% endblock contents %}

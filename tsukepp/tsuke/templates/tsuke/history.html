@@ -1,0 +1,44 @@
+{% extends 'tsuke/base.html' %}
+{% load static %}
+
+{% block head %}
+<!-- DataTables (not working) -->
+{% comment %} <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script> {% endcomment %}
+{% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" /> {% endcomment %}
+{% comment %} <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> {% endcomment %}
+{% endblock head %}
+
+{% block contents %}
+<main id="main">
+    <section id="about" class="about">
+      <div class="container">
+        <table id="history" class="table table-hover">
+          <thead>
+            <tr>
+              <th>購入日時</th>
+              <th>金額</th>
+              <th>メモ</th>
+              <th>支払い</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x in tsuke_list %}
+              <tr>
+                <td>{{ x.purchase_datetime }}</td>
+                <td>{{ x.amount }}</td>
+                <td>{{ x.note }}</td>
+                <td>
+                  {% if x.is_paid %}
+                    済
+                  {% else %}
+                    未
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {% comment %} <script>$("#history").DataTable();</script> {% endcomment %}
+    {% endblock %}
