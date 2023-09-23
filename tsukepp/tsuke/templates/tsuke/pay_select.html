@@ -16,6 +16,7 @@
               <th id="check-col"></th>
               {% comment %} <th id="id-col">ID</th> {% endcomment %}
               <th id="amount-col">金額</th>
+              <th id="amount-col">品目</th>
               <th id="purchase_datetime-col">購入日時</th>
               <th id="note-col">メモ</th>
             </tr>
@@ -27,6 +28,7 @@
                 <td><input type="checkbox" name="tsuke_list" value={{ tsuke.id }} checked></td>
                 {% comment %} <td>{{ tsuke.id }}</td> {% endcomment %}
                 <td>{{ tsuke.amount }} </td>
+                <td>{{ tsuke.category }} </td>
                 <td>{{ tsuke.purchase_datetime|date:"y/n/j H:i" }}</td>
                 <td>{{ tsuke.note }}</td>
                 </td>
