@@ -7,7 +7,12 @@ class TsukeCreateForm(forms.ModelForm):
     """ツケの登録"""
     class Meta:
         model = Tsuke
-        fields=("amount", "note",)
+        fields=("amount", "category", "note",)
+
+    def __init__(self, *args, **kwargs):
+        for field in self.base_fields.values():
+            field.widget.attrs.update({"class":"form-control"})
+        super().__init__(*args, **kwargs)
 
 
 class TsukePaySelectForm(forms.Form):
