@@ -37,7 +37,7 @@ class TsukeHistoryView(LoginRequiredMixin, generic.ListView):
     """ツケ履歴"""
     model = Tsuke
     template_name = 'tsuke/history.html'
-    # paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
         return Tsuke.objects.filter(user=self.request.user).order_by("-purchase_date")
