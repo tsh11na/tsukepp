@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tsuke.apps.TsukeConfig',
-    'accounts.apps.AccountConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -134,7 +134,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "handlers": {
         "console": {
-            "level": "debug",
+            "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "dev"
         }
