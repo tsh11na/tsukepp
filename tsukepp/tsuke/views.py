@@ -1,5 +1,4 @@
 from typing import Any
-from django.db import models
 from django.db.models.query import QuerySet
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -53,4 +52,5 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
 
 
 def tsuke_pay(request):
-    return render(request, "tsuke/pay.html")
+    unpaid_tsuke_list = Tsuke.objects.filter(user=request.user, is_paid=False)
+    return render(request, "tsuke/pay.html", {"tsuke_list": unpaid_tsuke_list})
