@@ -1,0 +1,39 @@
+{% extends "tsuke/base.html" %}
+{% load static %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block contents %}
+hello
+    {% comment %} <section id="about" class="about">
+      <div class="container">
+        <table id="history" class="table table-hover">
+          <thead>
+            <tr>
+              <th>購入日時</th>
+              <th>金額</th>
+              <th>メモ</th>
+              <th>支払い</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x in tsuke_list %}
+              <tr>
+                <td>{{ x.purchase_datetime }}</td>
+                <td>{{ x.amount }}</td>
+                <td>{{ x.note }}</td>
+                <td>
+                  {% if x.is_paid %}
+                    済
+                  {% else %}
+                    未
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section> {% endcomment %}
+{% endblock contents %}
