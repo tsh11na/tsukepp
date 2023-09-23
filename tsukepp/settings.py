@@ -1,8 +1,9 @@
 """Heroku用環境設定"""
 
-from .settings_common import *
 import dj_database_url
 import django_heroku
+
+from .settings_common import *
 
 DEBUG = False
 
@@ -27,8 +28,17 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 #         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
 #     },
 # }
+
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+# https://code.djangoproject.com/ticket/33685
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'name',
+        'HOST': 'host',
+        'USER': 'user',
+        'PORT': '',
+        'PASSWORD': '',
+    }
 }
 
 django_heroku.settings(locals())
