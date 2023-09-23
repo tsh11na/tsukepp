@@ -61,3 +61,8 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
 def tsuke_pay(request):
     unpaid_tsuke_list = Tsuke.objects.filter(user=request.user, is_paid=False)
     return render(request, "tsuke/pay_select.html", {"tsuke_list": unpaid_tsuke_list})
+
+
+def tsuke_confirm(request):
+    # unpaid_tsuke_list = Tsuke.objects.filter(user=request.user, is_paid=False)
+    return render(request, "tsuke/pay_confirm.html")

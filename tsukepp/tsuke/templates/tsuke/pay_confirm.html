@@ -1,0 +1,35 @@
+{% extends "tsuke/base.html" %}
+{% load static %}
+
+{% block title %}支払う | Tsukepp{% endblock title %}
+
+{% block contents %}
+    <section id="about" class="about">
+      <div class="container">
+      <h2>以下のツケを支払います。よろしいですか？</h2>
+      <div class="container">
+        <table id="history" class="table table-hover">
+          <thead>
+            <tr>
+              <th>購入日時</th>
+              <th>金額</th>
+              <th>メモ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x in tsuke_list %}
+              <tr>
+                <td>{{ x.purchase_datetime }}</td>
+                <td>{{ x.amount }}</td>
+                <td>{{ x.note }}</td>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <h4><b>合計金額: <span id="total"></span> 円</b></h4>
+      <button type="submit" class="btn btn-primary">支払う</button>
+    </div>
+    </section>
+{% endblock contents %}
