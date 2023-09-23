@@ -29,16 +29,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 #     },
 # }
 
-DATABASES = {
-# https://code.djangoproject.com/ticket/33685
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'name',
-        'HOST': 'host',
-        'USER': 'user',
-        'PORT': '',
-        'PASSWORD': '',
-    }
-}
-
 django_heroku.settings(locals())
+
+DATABASES = {
+    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+}
