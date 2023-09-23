@@ -30,5 +30,16 @@ services:
     # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - db
+    ports:
+      - 8080:80
+    # environment:
+    #   - PMA_HOST=db
+    #   - PMA_USER=root
+    #   - PMA_PASSWORD=password
+
 volumes:
   mysql-data:
