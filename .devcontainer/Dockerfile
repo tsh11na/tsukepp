@@ -9,7 +9,11 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
 
 RUN apt-get update && apt-get upgrade -y \
-    && pip3 install --upgrade pip
+    && apt-get install --no-install-recommends -y vim \
+    && pip install --no-cache-dir --upgrade pip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /workspaces
 COPY requirements.txt .
 USER ${USERNAME}
