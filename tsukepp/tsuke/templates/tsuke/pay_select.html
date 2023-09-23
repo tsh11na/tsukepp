@@ -6,38 +6,43 @@
 {% block contents %}
     <section id="about" class="about">
       <div class="container">
+      <form action="{% url 'tsuke:pay_confirm' %}" method="post">
+    {% csrf_token %}
       <h2>支払うツケを選択してください。</h2>
       <div class="container">
         <table id="history" class="table table-hover">
           <thead>
             <tr>
-              <th>支払う</th>
-              <th>購入日時</th>
-              <th>金額</th>
-              <th>メモ</th>
+              <th id="check-col">支払う</th>
+              <th id="id-col">ツケID</th>
+              <th id="purchase_datetime-col">購入日時</th>
+              <th id="amount-col">金額</th>
+              <th id="note-col">メモ</th>
             </tr>
           </thead>
           <tbody>
-            {% for x in tsuke_list %}
+            {% for tsuke in tsuke_list %}
               <tr>
-                <td><input type="checkbox" name="pay" id="item{{forloop.counter}}" checked></td>
-                <td>{{ x.purchase_datetime }}</td>
-                <td>{{ x.amount }}</td>
-                <td>{{ x.note }}</td>
+                <td><input type="checkbox" name="pay" id="item{{forloop.counter}}" value={{tsuke.id}} checked></td>
+                <th>{{ tsuke.id }}</th>
+                <td>{{ tsuke.purchase_datetime }}</td>
+                <td>{{ tsuke.amount }}</td>
+                <td>{{ tsuke.note }}</td>
                 </td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
-      <p>合計金額: <span id="total"></span> 円</p>
+      <h4><b>合計金額: <span id="total"></span> 円</b></h4>
+      <button type="submit" class="btn btn-primary">決定</button>
     </div>
     </section>
-    <script> <!-- from ChatGPT -->
+    <script> // from ChatGPT
       // チェックボックスの要素を取得
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const checkboxes = document.querySelectorAll('td:first-of-type input');
       const totalDisplay = document.getElementById('total');
-      const amountRowNo = 2  // FIXME: 本当は列名で指定したい
+      const amountIndex = document.getElementById("amount-col").cellIndex // 金額の列番号
 
       // 合計を計算する関数
       function calculateTotal() {
@@ -45,8 +50,7 @@
         checkboxes.forEach(checkbox => {
           if (checkbox.checked) {
             const row = checkbox.parentNode.parentNode; // チェックボックスの親要素の親要素 (行) を取得
-            const price = parseFloat(row.cells[amountRowNo].textContent); // 金額のセルのテキストを数値に変換
-
+            const price = parseInt(row.cells[amountIndex].textContent); // 金額のセルのテキストを数値に変換
             total += price;
           }
         });
