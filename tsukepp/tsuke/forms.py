@@ -13,6 +13,7 @@ class TsukeCreateForm(forms.ModelForm):
         for field in self.base_fields.values():
             field.widget.attrs.update({"class":"form-control"})
         super().__init__(*args, **kwargs)
+        self.fields['amount'].widget.attrs.update({'step': '10'})
 
 
 class TsukePaySelectForm(forms.Form):
