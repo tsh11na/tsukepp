@@ -3,6 +3,8 @@ Django development settings for tsukepp project.
 """
 
 import socket  # For Django Debug Toolbar
+# from decouple import config
+
 from .settings_common import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -21,6 +23,32 @@ MIDDLEWARE += [
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
 hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+
+# Database
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+DATABASES = {
+# https://code.djangoproject.com/ticket/33685
+# Service for test may be implemented later:
+# https://note.com/decoponia/n/nc75b36e2d1ee
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'OPTIONS': {
+            'service': 'DB',
+            'passfile': '/workspaces/tsukepp/.pgpass',
+        }
+    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'django_db',
+    #     'HOST': 'localhost',
+    #     'USER': config('DB_USER'),
+    #     'PORT': config('DB_PORT'),
+    #     'OPTIONS': {
+    #         # 'service': 'DB',
+    #         'passfile': '/workspaces/tsukepp/.pgpass',
+    #     }
+    # }
+}
 
 # Logging
 # https://docs.djangoproject.com/en/4.2/topics/logging/

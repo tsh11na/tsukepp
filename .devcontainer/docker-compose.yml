@@ -18,28 +18,31 @@ services:
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
-  db:
-    image: mysql:latest
-    # restart: unless-stopped
-    volumes:
-      - mysql-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: django_db
+      PGSERVICEFILE: /workspaces/tsukepp/.pg_service.conf
+      PGPASSFILE: /workspaces/tsukepp/.pgpass
+
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
 
     # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
-  phpmyadmin:
-    image: phpmyadmin
+  pgadmin:
+    image: dpage/pgadmin4
     depends_on:
       - db
     ports:
       - 8080:80
-    # environment:
-    #   - PMA_HOST=db
-    #   - PMA_USER=root
-    #   - PMA_PASSWORD=password
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
 
 volumes:
-  mysql-data:
+  postgres-data:

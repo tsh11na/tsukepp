@@ -1,19 +1,18 @@
-FROM python:3.10
-ENV PYTHONBUFFERED 1
+FROM mcr.microsoft.com/devcontainers/python:1-3.11-bullseye
 
-ARG USERNAME=vscode
-ARG USER_UID=1234
-ARG USER_GID=${USER_UID}
+ENV PYTHONUNBUFFERED 1
 
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
+# # https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user
+# RUN groupadd --gid $USER_GID $USERNAME \
+#     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
 
-RUN apt-get update && apt-get upgrade -y \
-    && apt-get install --no-install-recommends -y vim \
-    && pip install --no-cache-dir --upgrade pip \
+# [Optional] If your requirements rarely change, uncomment this section to add them to the image.
+COPY requirements.txt /tmp/pip-tmp/
+RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
+   && rm -rf /tmp/pip-tmp
+
+# [Optional] Uncomment this section to install additional OS packages.
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends -y vim \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /workspaces
-COPY requirements.txt .
-USER ${USERNAME}
