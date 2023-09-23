@@ -6,17 +6,12 @@
 {% block contents %}
     <section id="about" class="about">
       <div class="container">
-      {{ items }}
       <form action="{% url 'tsuke:pay_confirm' %}" method="post">
       {% csrf_token %}
-        {{ form }}
-        <button type="submit">決定</button>
-
-{% comment %} 
-      <h2>支払うツケを選択してください。</h2>
-      <div class="container">
-        <table id="history" class="table table-hover">
-          <thead>
+      <h3>支払うツケを選択してください。</h3>
+       <!-- https://medium.com/@alfarhanzahedi/customizing-modelmultiplechoicefield-in-a-django-form-96e3ae7e1a07-->       
+       <table id="pay-list" class="table table-hover">
+         <thead>
             <tr>
               <th id="check-col">支払う</th>
               <th id="id-col">ID</th>
@@ -26,21 +21,21 @@
             </tr>
           </thead>
           <tbody>
-            {% for tsuke in tsuke_list %}
+            {% for tid, desc, tsuke in form.tsuke_list.field.choices %}
               <tr>
-                <td><input type="checkbox" name="pay" id="item{{forloop.counter}}" value={{tsuke.id}} checked></td>
-                <th>{{ tsuke.id }}</th>
+                <td><input type="checkbox" name="tsuke-list" value={{ tid }} checked></td>
+                <td>{{ tid }}</td>
                 <td>{{ tsuke.purchase_datetime }}</td>
-                <td>{{ tsuke.amount }}</td>
+                <td>{{ tsuke.amount }} </td>
                 <td>{{ tsuke.note }}</td>
                 </td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
+        <h4><b>合計金額: <span id="total"></span> 円</b></h4>
+        <button type="submit" class="btn btn-primary">決定</button>
       </div>
-      <h4><b>合計金額: <span id="total"></span> 円</b></h4>
-      <button type="submit" class="btn btn-primary">決定</button>
     </div>
     </section>
     <script> // from ChatGPT
@@ -69,5 +64,5 @@
         checkbox.addEventListener('change', calculateTotal);
       });
       calculateTotal();
-    </script> {% endcomment %}
+    </script>
 {% endblock contents %}

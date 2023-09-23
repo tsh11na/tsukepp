@@ -1,12 +1,12 @@
 from typing import Any
-from django.db.models import Sum, Count
+from django.db.models import Sum
 from django.db.models.query import QuerySet
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
 
 from .models import Tsuke
