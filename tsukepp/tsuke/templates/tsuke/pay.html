@@ -1,12 +1,12 @@
 {% extends "tsuke/base.html" %}
 {% load static %}
 
-{% block navbar %}
-{% endblock navbar %}
+{% block title %}支払う | Tsukepp{% endblock title %}
 
 {% block contents %}
-hello
-    {% comment %} <section id="about" class="about">
+    <section id="about" class="about">
+      <div class="container">
+      <h2>支払うツケを選択してください。</h2>
       <div class="container">
         <table id="history" class="table table-hover">
           <thead>
@@ -35,5 +35,6 @@ hello
           </tbody>
         </table>
       </div>
-    </section> {% endcomment %}
+    </div>
+    </section>
 {% endblock contents %}
