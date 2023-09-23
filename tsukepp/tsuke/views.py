@@ -74,21 +74,16 @@ def tsuke_pay_confirm(request):
     selected_ids = request.POST.getlist("selected_ids")
     checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
 
-    # # 「支払う」ボタン押下時：決済処理
-    # if request.method == "POST":
-    #     form = TsukePayConfirmForm(request.POST)
-    #     form.fields["selected_ids"].queryset = checking_tsuke_list
-
-    #     if form.is_valid():
-    #         return redirect('tsuke:settle')
-
     # 確認画面
     form = TsukePayConfirmForm(request.POST)
+
     form.fields["selected_ids"].queryset = checking_tsuke_list
     return render(request, "tsuke/pay_confirm.html", {"form": form})
 
 def settle(request):
     """決済処理"""
+
+    # TODO formのバリデーション？
 
     try: # 更新処理
         # 決済対象のツケを取得
@@ -106,25 +101,3 @@ def settle(request):
 
     else:  # 成功時
         return HttpResponseRedirect(reverse_lazy("tsuke:index"))
-
-# class TsukePayConfirmView(LoginRequiredMixin, generic.FormView):
-#     template_name = "tsuke/pay_confirm.html"
-#     form_class = TsukePayConfirmForm
-#     success_url = reverse_lazy("tsuke:index")
-
-#     def get_form(self, form_class=None):
-
-#         selected_ids = self.request.POST.getlist("selected_ids")
-#         checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
-
-#         # フォームを取得し、選択されたツケのリストをセット
-#         form = super().get_form(form_class)
-#         form.fields["tsuke_list"].queryset = checking_tsuke_list
-#         return form
-
-#     def form_valid(self, form):
-#         pass
-#         # 選択されたIDに対する一括更新処理を実行
-#         # 例: YourModel.objects.filter(id__in=selected_ids).update(...)
-
-#         return super().form_valid(form)
