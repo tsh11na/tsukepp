@@ -11,7 +11,7 @@ class TsukeCreateForm(forms.ModelForm):
 
 
 class TsukePaySelectForm(forms.Form):
-    """支払うツケの選択"""
+    """清算するツケの選択"""
     tsuke_list = forms.ModelMultipleChoiceField(
         queryset=Tsuke.objects.none(),  # 空のクエリセット（views.pyで選択するため）
         widget=forms.CheckboxSelectMultiple,  # チェックボックスを使って選択
@@ -25,7 +25,7 @@ class TsukePaySelectForm(forms.Form):
             self.fields['tsuke_list'].queryset = Tsuke.objects.filter(user=user, is_paid=False)
 
 class TsukePayConfirmForm(forms.Form):
-    """支払うツケの確認"""
+    """清算するツケの確認"""
     tsuke_list = forms.ModelMultipleChoiceField(
         queryset=Tsuke.objects.none(),
         widget=forms.CheckboxSelectMultiple,

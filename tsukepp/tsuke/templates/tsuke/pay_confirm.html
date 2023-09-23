@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-  支払う | Tsukepp
+  清算する | Tsukepp
 {% endblock %}
 
 {% block contents %}
@@ -11,11 +11,11 @@
       <form action="{% url 'tsuke:settle' %}" method="post">
         {% csrf_token %}
 
-        <h3>以下のツケを支払います。よろしいですか？</h3>
+        <h3>以下のツケを清算します。よろしいですか？</h3>
         <table id="pay-list" class="table table-hover">
           <thead>
             <tr>
-              <th id="id-col">ID</th>
+              {% comment %} <th id="id-col">ID</th> {% endcomment %}
               <th id="amount-col">金額</th>
               <th id="purchase_datetime-col">購入日時</th>
               <th id="note-col">メモ</th>
@@ -25,16 +25,16 @@
             {% for tsuke in tsuke_list %}
               <input type="hidden" name="tsuke_list" value={{ tsuke.id }} checked>
               <tr>
-                <td>{{ tsuke.id }}</td>
+                {% comment %} <td>{{ tsuke.id }}</td> {% endcomment %}
                 <td>{{ tsuke.amount }}</td>
-                <td>{{ tsuke.purchase_datetime }}</td>
+                <td>{{ tsuke.purchase_datetime|date:"y/n/j H:i" }}</td>
                 <td>{{ tsuke.note }}</td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
         <h4><b>合計金額: <span id="total"></span> 円</b></h4>
-        <button type="submit" class="btn btn-primary">支払う</button>
+        <button type="submit" class="btn btn-primary">清算する</button>
       </form>
     </section>
     <script>

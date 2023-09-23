@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('purchase_date', models.DateTimeField(auto_now_add=True, verbose_name='購入日時')),
                 ('amount', models.PositiveSmallIntegerField(verbose_name='金額')),
-                ('is_paid', models.BooleanField(default=False, verbose_name='支払')),
+                ('is_paid', models.BooleanField(default=False, verbose_name='清算済')),
                 ('note', models.CharField(blank=True, max_length=50, verbose_name='メモ')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL, verbose_name='ユーザ')),
             ],
