@@ -3,9 +3,11 @@ Django development settings for tsukepp project.
 """
 
 import socket  # For Django Debug Toolbar
-# from decouple import config
 
 from .settings_common import *
+
+# from decouple import config
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
