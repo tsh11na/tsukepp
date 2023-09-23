@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 
 
 from .models import Tsuke
@@ -88,19 +88,23 @@ def settle(request):
 
     # TODO formのバリデーション？
 
-    try: # 更新処理
-        # 決済対象のツケを取得
-        selected_ids = request.POST.getlist("tsuke_list")
-        checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
+    if request.method == "POST":
+        try: # 更新処理
+            # 決済対象のツケを取得
+            selected_ids = request.POST.getlist("tsuke_list")
+            checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
 
-        # 清算済に変更
-        for tsuke in checking_tsuke_list:
-            tsuke.is_paid = True
+            # 清算済に変更
+            for tsuke in checking_tsuke_list:
+                tsuke.is_paid = True
 
-        Tsuke.objects.bulk_update(checking_tsuke_list, fields=["is_paid"])
+            Tsuke.objects.bulk_update(checking_tsuke_list, fields=["is_paid"])
 
-    except(KeyError, Tsuke.DoesNotExist):
-        pass  # TODO エラー処理
+        except(KeyError, Tsuke.DoesNotExist):
+            pass  # TODO エラー処理
 
-    else:  # 成功時
-        return HttpResponseRedirect(reverse_lazy("tsuke:index"))
+        else:  # 成功時
+            return HttpResponseRedirect(reverse_lazy("tsuke:index"))
+
+    else:  # 決済処理はPOSTからしか呼び出せない
+        return HttpResponseNotAllowed(["POST"])
