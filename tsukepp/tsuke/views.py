@@ -60,15 +60,16 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
         return super().form_invalid(form)
 
 def tsuke_pay_select(request):
-    """支払い選択画面"""
+    """清算選択画面"""
+    # TODO LoginRequired
     form = TsukePaySelectForm(user=request.user)
     tsuke_list = form.fields['tsuke_list'].queryset
 
     return render(request, "tsuke/pay_select.html", {"tsuke_list": tsuke_list})
 
 def tsuke_pay_confirm(request):
-    """支払い確認画面"""
-
+    """清算確認画面"""
+    # TODO LoginRequired
     selected_ids = request.POST.getlist("tsuke_list")
 
     # 確認画面
@@ -88,7 +89,7 @@ def settle(request):
         selected_ids = request.POST.getlist("tsuke_list")
         checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
 
-        # 支払済に変更
+        # 清算済に変更
         for tsuke in checking_tsuke_list:
             tsuke.is_paid = True
 
