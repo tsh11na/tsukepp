@@ -39,7 +39,7 @@ class TsukeHistoryView(LoginRequiredMixin, generic.ListView):
     template_name = 'tsuke/history.html'
 
     def get_queryset(self) -> QuerySet[Any]:
-        return Tsuke.objects.filter(user=self.request.user).order_by("-purchase_datetime")
+        return Tsuke.objects.filter(user=self.request.user).order_by("-purchase_date")
 
 
 class TsukeCreateView(LoginRequiredMixin, generic.CreateView):

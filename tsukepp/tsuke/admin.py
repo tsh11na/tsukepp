@@ -8,7 +8,7 @@ class ItemCategoryAdmin(admin.ModelAdmin):
 
 
 class TsukeAdmin(admin.ModelAdmin):
-    list_display = ["purchase_datetime", "amount", "user", "note"]
+    list_display = ["purchase_date", "amount", "user", "note"]
 
 
 admin.site.register(ItemCategory, ItemCategoryAdmin)
