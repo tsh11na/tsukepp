@@ -61,23 +61,19 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
 
 def tsuke_pay_select(request):
     """支払い選択画面"""
-    unpaid_tsuke_list = Tsuke.objects.filter(user=request.user, is_paid=False)
+    form = TsukePaySelectForm(user=request.user)
 
-    form = TsukePaySelectForm()
-    form.fields['selected_ids'].queryset = unpaid_tsuke_list
-    
     return render(request, "tsuke/pay_select.html", {"form": form})
 
 def tsuke_pay_confirm(request):
     """支払い確認画面"""
 
-    selected_ids = request.POST.getlist("selected_ids")
-    checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
+    selected_ids = request.POST.getlist("tsuke_list")
 
     # 確認画面
-    form = TsukePayConfirmForm(request.POST)
+    form = TsukePayConfirmForm(request.POST, tsuke_ids=selected_ids)
 
-    form.fields["selected_ids"].queryset = checking_tsuke_list
+    # https://teratail.com/questions/69603
     return render(request, "tsuke/pay_confirm.html", {"form": form})
 
 def settle(request):
@@ -87,7 +83,7 @@ def settle(request):
 
     try: # 更新処理
         # 決済対象のツケを取得
-        selected_ids = request.POST.getlist("selected_ids")
+        selected_ids = request.POST.getlist("tsuke_list")
         checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
 
         # 支払済に変更
