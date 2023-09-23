@@ -48,3 +48,6 @@ LOGGING = {
         }
     },
 }
+
+EMAILBACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
