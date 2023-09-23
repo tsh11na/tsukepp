@@ -12,12 +12,30 @@
     <section id="about" class="about">
       <div class="container">
 
+        {% if user.id %}
+        <div class="row">
+          <div class="col-lg-12 pt-4 pt-lg-0 content">
+            <h3>ようこそ {{user}} さん</h3>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-lg-12 pt-4 pt-lg-0 content">
             <h3>現在のツケ {{unpaid_amount.amount__sum}} 円</h3>
             <h4>（件数 {{unpaid_count}} 件） </h4>
           </div>
         </div>
+        
+        {% else %}
+        <div class="row">
+          <div class="col-lg-12 pt-4 pt-lg-0 content">
+            <h3>Tsukeppへようこそ</h3>
+            <h3>ログインは<a href={% url "account_login" %}>こちら</a></h3>
+          </div>
+        </div>
+
+        {% endif %}
+
 
       </div>
     </section><!-- End About Section -->
