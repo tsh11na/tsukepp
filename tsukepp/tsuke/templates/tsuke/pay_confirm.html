@@ -1,18 +1,15 @@
-{% extends "tsuke/base.html" %}
+{% extends 'tsuke/base.html' %}
 {% load static %}
 
-{% block title %}支払う | Tsukepp{% endblock title %}
+{% block title %}
+  支払う | Tsukepp
+{% endblock %}
 
 {% block contents %}
-
-<div class="container">
+  <div class="container">
     <section id="about" class="about">
-        <h2>以下のツケを支払います。よろしいですか？</h2>
-        {{tsuke_list}}
-    </section>
-</div>
-    {% comment %} <section id="about" class="about">
-      <div class="container">
+      <form action="{% url 'tsuke:index' %}" method="post">
+        <h3>以下のツケを支払います。よろしいですか？</h3>
         <table id="history" class="table table-hover">
           <thead>
             <tr>
@@ -33,37 +30,38 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
-      <h4><b>合計金額: <span id="total"></span> 円</b></h4>
-      <button type="submit" class="btn btn-primary">支払う</button>
-    </div>
+        <h4><b>合計金額: <span id="total"></span> 円</b></h4>
+        <button type="submit" class="btn btn-primary">支払う</button>
+      </form>
     </section>
-    <script> // from ChatGPT
+  </div>
+  <script>
+    // from ChatGPT
     // ページの読み込みが完了したら実行
-    document.addEventListener("DOMContentLoaded", function () {
-    // テーブル要素を取得
-    const table = document.querySelector("table");
-    const totalDisplay = document.getElementById('total');
-    const amountIndex = document.getElementById("amount-col").cellIndex // 金額の列番号
-
-    // 合計を格納する変数を初期化
-    let total = 0;
+    document.addEventListener('DOMContentLoaded', function () {
+      // テーブル要素を取得
+      const table = document.querySelector('table')
+      const totalDisplay = document.getElementById('total')
+      const amountIndex = document.getElementById('amount-col').cellIndex // 金額の列番号
     
-    // テーブルの各行をループ処理
-    var rows = table.querySelectorAll("tbody tr");
-    rows.forEach(function (row) {
-      // 各行の数量列のセルを取得
-      var cell = row.cells[amountIndex];
-      
-      // セルの内容を整数に変換して合計に加える
-      total += parseInt(cell.textContent);
-    });
+      // 合計を格納する変数を初期化
+      let total = 0
     
-    // // 合計を表示するセルを取得
-    // const totalCell = table.querySelector("tfoot td:nth-child(2)");
+      // テーブルの各行をループ処理
+      var rows = table.querySelectorAll('tbody tr')
+      rows.forEach(function (row) {
+        // 各行の数量列のセルを取得
+        var cell = row.cells[amountIndex]
     
-    // 合計を表示
-    totalDisplay.textContent = total;
-  });
-    </script> {% endcomment %}
-{% endblock contents %}
+        // セルの内容を整数に変換して合計に加える
+        total += parseInt(cell.textContent)
+      })
+    
+      // // 合計を表示するセルを取得
+      // const totalCell = table.querySelector("tfoot td:nth-child(2)");
+    
+      // 合計を表示
+      totalDisplay.textContent = total
+    })
+  </script>
+{% endblock %}

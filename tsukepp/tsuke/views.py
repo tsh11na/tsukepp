@@ -76,9 +76,30 @@ def tsuke_pay_select(request):
     
     return render(request, "tsuke/pay_select.html", {"form": form})
 
-# def tsuke_pay_confirm(request):
-#     """支払い確認画面"""
-#     selected_ids = request.POST.getlist("selected_ids")
-#     checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
-#     return render(request, "tsuke/pay_confirm.html", {"tsuke_list": checking_tsuke_list})
+def tsuke_pay_confirm(request):
+    """支払い確認画面"""
+    selected_ids = request.POST.getlist("selected_ids")
+    checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
+    return render(request, "tsuke/pay_confirm.html", {"tsuke_list": checking_tsuke_list})
 
+# class TsukePayConfirmView(LoginRequiredMixin, generic.FormView):
+#     template_name = "tsuke/pay_confirm.html"
+#     form_class = TsukePayConfirmForm
+#     success_url = reverse_lazy("tsuke:index")
+
+#     def get_form(self, form_class=None):
+
+#         selected_ids = self.request.POST.getlist("selected_ids")
+#         checking_tsuke_list = Tsuke.objects.filter(id__in=selected_ids)
+
+#         # フォームを取得し、選択されたIDの一覧をセット
+#         form = super().get_form(form_class)
+#         form.fields["tsuke_list"].queryset = checking_tsuke_list
+#         return form
+
+#     def form_valid(self, form):
+#         pass
+#         # 選択されたIDに対する一括更新処理を実行
+#         # 例: YourModel.objects.filter(id__in=selected_ids).update(...)
+
+#         return super().form_valid(form)
