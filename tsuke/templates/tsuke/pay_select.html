@@ -6,11 +6,8 @@
 {% block contents %}
     <section id="about" class="about">
       <div class="container">
-        {% comment %} {{form.as_table}} {% endcomment %}
       <form method="post">
       {% csrf_token %}
-      {{ form.as_table }}
-
       <h4>清算するツケを選んでください。</h4>
        <!-- https://medium.com/@alfarhanzahedi/customizing-modelmultiplechoicefield-in-a-django-form-96e3ae7e1a07-->       
        <table id="unpaid-list" class="table table-hover">
@@ -25,18 +22,17 @@
             </tr>
           </thead>
           <tbody>
-            {% comment %} {% for tid, desc in form.tsuke_list.field.choices %} {% endcomment %}
-            {% comment %} {% for choice in form.unpaid_tsukes %} {% endcomment %}
+            {% for choice in form.unpaid_tsukes %}
               <tr>
-                {% comment %} <td><input type="checkbox" id="{{ choice.data.attrs.id }}" name="{{ choice.data.name }}" value="{{ choice.data.value }}" checked class="row-checkbox"></td> {% endcomment %}
-                {% comment %} <td>{{ tsuke.id }}</td> {% endcomment %}
-                <td>{{ tsuke.amount }} </td>
-                <td>{{ tsuke.category }} </td>
-                <td>{{ tsuke.purchase_date|date:"y/n/j H:i" }}</td>
-                <td>{{ choice.choice_label }}</td>
-                </td>
+                <td><input type="checkbox" id="{{ choice.data.attrs.id }}" name="{{ choice.data.name }}" value="{{ choice.data.value }}" checked class="row-checkbox"></td>
+                {% comment %} <td>{{ choice.data.value.instance.id }}</td> {% endcomment %}
+                <td>{{ choice.data.value.instance.amount }} </td>
+                <td>{{ choice.data.value.instance.category }} </td>
+                <td>{{ choice.data.value.instance.purchase_date|date:"y/n/j H:i" }}</td>
+                <td>{{ choice.data.value.instance.choice_label }}</td>
+              </td>
               </tr>
-            {% comment %} {% endfor %} {% endcomment %}
+            {% endfor %}
           </tbody>
         </table>
         <h4><b>合計金額: <span id="total"></span> 円</b></h4>
