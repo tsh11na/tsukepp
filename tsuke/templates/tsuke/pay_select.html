@@ -6,8 +6,11 @@
 {% block contents %}
     <section id="about" class="about">
       <div class="container">
-      <form action="{% url 'tsuke:pay_confirm' %}" method="post">
+        {% comment %} {{form.as_table}} {% endcomment %}
+      <form method="post">
       {% csrf_token %}
+      {{ form.as_table }}
+
       <h4>清算するツケを選んでください。</h4>
        <!-- https://medium.com/@alfarhanzahedi/customizing-modelmultiplechoicefield-in-a-django-form-96e3ae7e1a07-->       
        <table id="unpaid-list" class="table table-hover">
@@ -23,17 +26,17 @@
           </thead>
           <tbody>
             {% comment %} {% for tid, desc in form.tsuke_list.field.choices %} {% endcomment %}
-            {% for tsuke in tsuke_list %}
+            {% comment %} {% for choice in form.unpaid_tsukes %} {% endcomment %}
               <tr>
-                <td><input type="checkbox" name="tsuke_list" value={{ tsuke.id }} checked class="row-checkbox"></td>
+                {% comment %} <td><input type="checkbox" id="{{ choice.data.attrs.id }}" name="{{ choice.data.name }}" value="{{ choice.data.value }}" checked class="row-checkbox"></td> {% endcomment %}
                 {% comment %} <td>{{ tsuke.id }}</td> {% endcomment %}
                 <td>{{ tsuke.amount }} </td>
                 <td>{{ tsuke.category }} </td>
                 <td>{{ tsuke.purchase_date|date:"y/n/j H:i" }}</td>
-                <td>{{ tsuke.note }}</td>
+                <td>{{ choice.choice_label }}</td>
                 </td>
               </tr>
-            {% endfor %}
+            {% comment %} {% endfor %} {% endcomment %}
           </tbody>
         </table>
         <h4><b>合計金額: <span id="total"></span> 円</b></h4>
@@ -82,5 +85,4 @@
       calculateTotal();
 
     </script>
-
 {% endblock contents %}
