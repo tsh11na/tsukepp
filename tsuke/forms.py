@@ -34,18 +34,3 @@ class TsukePaySelectForm(forms.Form):
         super().__init__(*args, **kwargs)
         if user:  # 「対象のユーザかつ未払い」に絞り込む
             self.fields['unpaid_tsukes'].queryset = Tsuke.objects.filter(user=user, is_paid=False)
-
-
-class TsukePayConfirmForm(forms.Form):
-    """清算するツケの確認"""
-    checking_tsukes = forms.ModelMultipleChoiceField(
-        queryset=Tsuke.objects.none(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False  # フォームの空判定は初期化時点で行われるため（ChatGPT曰く）
-    )
-
-    def __init__(self, *args, **kwargs):
-        tsuke_ids = kwargs.pop('tsuke_ids', None)
-        super().__init__(*args, **kwargs)
-        if tsuke_ids:  # 対象のIDに絞り込む
-            self.fields['checking_tsukes'].queryset = Tsuke.objects.filter(id__in=tsuke_ids)

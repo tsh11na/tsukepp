@@ -5,12 +5,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.db.models import Sum
 from django.db.models.query import QuerySet
-from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import TsukeCreateForm, TsukePayConfirmForm, TsukePaySelectForm
+from .forms import TsukeCreateForm, TsukePaySelectForm
 from .models import Tsuke
 from .security import is_valid_token, set_submit_token
 from .utils import settle
