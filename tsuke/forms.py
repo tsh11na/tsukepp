@@ -14,7 +14,7 @@ class TsukeCreateForm(forms.ModelForm):
             field.widget.attrs.update({"class":"form-control"})
         request = kwargs.pop("request")
         super().__init__(*args, **kwargs)
-        self.fields['amount'].widget.attrs.update({'step': '10'})  # REVEIEW: 10円単位しか受け付けなくなるのでナシでもいいかも
+        # self.fields['amount'].widget.attrs.update({'step': '10'})  # NOTE: 10円単位しか受け付けなくなるので廃止
         # フィールドに初期値を設定
         # https://omkz.net/djagno-parameter-modelform/
         self.fields['amount'].initial = request.GET.get('amount', 0)
