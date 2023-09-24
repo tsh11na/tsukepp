@@ -1,5 +1,6 @@
-from accounts.models import CustomUser
 from django.db import models
+
+from accounts.models import CustomUser
 
 
 class ItemCategory(models.Model):
@@ -27,6 +28,7 @@ class Tsuke(models.Model):
     class Meta:
         verbose_name = "ツケ"
         verbose_name_plural = "ツケ"
+        unique_together = ['user', 'purchase_date', 'amount', 'category']
 
     def __str__(self):
         return f"{self.amount}円（{self.category}）"
