@@ -35,8 +35,11 @@
         <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
           <h1>Welcome!</h1>
           <h2>ツケ管理アプリ Tsukepp にようこそ！</h2>
-            <div class="d-flex">
-              <a href={% url "account_login" %} class="btn-get-started scrollto">ログイン</a>
+            <div class="d-flex justify-content-left">
+                {% comment %} <div class="btn-group"> {% endcomment %}
+                <a href={% url "account_login" %} class="btn-2 m-1">ログイン</a>
+                <a href={% url "account_signup" %} class="btn-get-started m-1">登録</a>
+                {% comment %} </div> {% endcomment %}
             </div>
         </div>
       </div>

@@ -16,7 +16,7 @@
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
             <button class="btn btn-primary" type="submit">ログイン</button>
-            <p><a class="button secondaryAction" href={% url "account_reset_password" %}>パスワードを忘れましたか？</a></p>
+            {% comment %} <p><a class="button secondaryAction" href={% url "account_reset_password" %}>パスワードを忘れましたか？</a></p> {% endcomment %}
         </form>
     </div>
 </section>

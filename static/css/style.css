@@ -394,7 +394,27 @@ h6 {
   box-shadow: 0 8px 28px rgba(32, 107, 251, 0.45);
 }
 
-/* #hero .btn-watch-video {
+#hero .btn-2 {
+  font-family: sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 8px 30px 10px 30px;
+  border-radius: 4px;
+  transition: 0.5s;
+  color: #fff;
+  background: #11a85f;
+  box-shadow: 0 8px 28px rgba(22, 223, 126, 0.45);
+}
+
+#hero .btn-2:hover {
+  background: #206bfb;
+  box-shadow: 0 8px 28px rgba(32, 107, 251, 0.45);
+}
+
+
+#hero .btn-watch-video {
   font-size: 16px;
   display: inline-block;
   transition: 0.5s;
@@ -403,7 +423,7 @@ h6 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-} */
+}
 
 #hero .btn-watch-video i {
   color: #949cac;
