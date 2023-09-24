@@ -1,17 +1,18 @@
 from typing import Any
 
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
 from django.db.models import Sum
 from django.db.models.query import QuerySet
 from django.http import HttpResponseNotAllowed, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
 
 from .forms import TsukeCreateForm, TsukePayConfirmForm, TsukePaySelectForm
 from .models import Tsuke
+from .security import is_valid_token, set_submit_token
 
 
 class IndexView(generic.TemplateView):
@@ -50,15 +51,28 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = TsukeCreateForm
     success_url = reverse_lazy("tsuke:index")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_token'] = set_submit_token(self.request)
+        return context
+
+    # https://omkz.net/djagno-parameter-modelform/
+    def get_form_kwargs(self) -> dict[str, Any]:
+        kwargs = super().get_form_kwargs()
+        kwargs["request"] = self.request
+        return kwargs
+
+    @transaction.atomic
     def form_valid(self, form):
-        tsuke = form.save(commit=False)
-        tsuke.user = self.request.user
-        tsuke.save()
-        messages.success(self.request, "ツケを登録しました。")
-        return super().form_valid(form)
+        if is_valid_token(self.request):
+            tsuke = form.save(commit=False)
+            tsuke.user = self.request.user
+            tsuke.save()
+            return super().form_valid(form)
+        else:
+            return redirect("tsuke:index")
 
     def form_invalid(self, form):
-        messages.error(self.request, "ツケの登録に失敗しました。")
         return super().form_invalid(form)
 
 @login_required
@@ -78,14 +92,14 @@ def tsuke_pay_confirm(request):
     form = TsukePayConfirmForm(request.POST, tsuke_ids=selected_ids)
     tsuke_list = form.fields['tsuke_list'].queryset
 
-    # https://teratail.com/questions/69603
+    if not form.is_valid():
+         return render(request, "tsuke/pay_select.html", {"tsuke_list": tsuke_list, "form": form})
+
     return render(request, "tsuke/pay_confirm.html", {"tsuke_list": tsuke_list})
 
 @login_required
 def settle(request):
     """決済処理"""
-
-    # TODO formのバリデーション？
 
     if request.method == "POST":
         try: # 更新処理
