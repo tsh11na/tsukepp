@@ -2,8 +2,8 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse_lazy
 
-from ..models import Tsuke, ItemCategory
 from ..forms import TsukeCreateForm
+from ..models import ItemCategory, Tsuke
 
 
 class LoggedInTestCase(TestCase):
@@ -16,6 +16,7 @@ class LoggedInTestCase(TestCase):
         """テストメソッド実行前の事前設定"""
         self.username = "testa"
         self.password = 'xyab2023'
+        self.SUBMIT_TOKEN = "test_token"
 
         self.test_user = get_user_model().objects.create_user(
             username=self.username,
@@ -27,6 +28,11 @@ class LoggedInTestCase(TestCase):
             password=self.password
         )
 
+    def set_pseudo_token(self):
+        """疑似submit tokenをセッションに格納する"""
+        sess = self.client.session
+        sess["submit_token"] = self.SUBMIT_TOKEN
+        sess.save()
 
 class TestAccount(LoggedInTestCase):
     """アカウント機能のテストクラス"""
@@ -50,11 +56,15 @@ class TestTsukeCreateView(LoggedInTestCase):
         # ビューのURLを取得
         url = reverse_lazy("tsuke:create")
 
+        # 疑似submit tokenを生成
+        self.set_pseudo_token()
+
         # POSTデータを作成
         data = {
             "amount": 100,
             "category": self.category.id,
             "note": "テストメモ",
+            "submit_token": self.SUBMIT_TOKEN
         }
         form = TsukeCreateForm(data)
         self.assertTrue(form.is_valid())
