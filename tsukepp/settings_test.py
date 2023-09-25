@@ -2,15 +2,8 @@
 Django development settings for tsukepp project.
 """
 
-import os
-import socket  # For Django Debug Toolbar
-
 from .settings_common import *
 
-# from decouple import config
-
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -19,14 +12,13 @@ ALLOWED_HOSTS = []
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {
 # https://code.djangoproject.com/ticket/33685
-
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get("POSTGRES_NAME"),
-        'HOST': os.environ.get("POSTGRES_HOST", "db"),
-        'USER': os.environ.get("POSTGRES_USER"),
-        'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
-        'PORT': os.environ.get("POSTGRES_PORT", 5432),
+        'NAME': 'postgres',
+        'HOST': 'db',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'PORT': 5432,
     }
 }
 
