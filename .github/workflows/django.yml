@@ -30,8 +30,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: ["3.10", "3.11"]  # TODO: 変更
-    
+        python-version: ["3.10", "3.11"]
     services:
       db:
         image: postgres:16
@@ -60,8 +59,8 @@ jobs:
         pip install -r requirements.txt
     - name: Migrate
       run: |
-        python manage.py makemigrations --settings tsukepp.settings_test
-        python manage.py migrate --settings tsukepp.settings_test
+        python manage.py makemigrations --settings ${{ env.DJANGO_SETTINGS_MODULE }}
+        python manage.py migrate --settings ${{ env.DJANGO_SETTINGS_MODULE }}
     - name: Run Tests
       run: |
-        python manage.py test tsuke.tests --settings tsukepp.settings_test
+        python manage.py test tsuke.tests --settings ${{ env.DJANGO_SETTINGS_MODULE }}
