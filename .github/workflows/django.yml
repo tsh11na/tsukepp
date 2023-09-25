@@ -57,4 +57,4 @@ jobs:
         python manage.py migrate --settings tsukepp.settings_test
     - name: Run Tests
       run: |
-        python manage.py test tsuke.tests.test_sample --settings tsukepp.settings_test
+        python manage.py test tsuke.tests --settings tsukepp.settings_test
