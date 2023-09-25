@@ -2,6 +2,8 @@
 Django development settings for tsukepp project.
 """
 
+import os
+
 from .settings_common import *
 
 DEBUG = True
@@ -14,11 +16,11 @@ DATABASES = {
 # https://code.djangoproject.com/ticket/33685
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'HOST': 'db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'PORT': 5432,
+        'NAME': os.environ.get("POSTGRES_NAME", "postgres"),
+        'HOST': os.environ.get("POSTGRES_HOST", "db"),
+        'USER': os.environ.get("POSTGRES_USER", "postgres"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", "postgres"),
+        'PORT': os.environ.get("POSTGRES_PORT", 5432),
     }
 }
 
