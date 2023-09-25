@@ -1,18 +1,45 @@
 # Inherited from:
 # https://github.com/actions/starter-workflows/blob/main/ci/django.yml
+# https://qiita.com/shun198/items/65025b5cc5729b4217e1
 
 name: Django CI
 
 on: [push, pull_request]
 
+env:
+  DJANGO_SETTINGS_MODULE: tsukepp.settings_test
+  ALLOWED_HOSTS: 127.0.0.1
+  # "True"にしないとDEBUG内がFalseになってしまう
+  DEBUG: "True"
+  POSTGRES_NAME: test_db
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_HOST: 127.0.0.1
+  POSTGRES_PORT: 5432
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7, 3.8, 3.9]  # TODO: 変更
+        python-version: [3.9]  # TODO: 変更
+    
+    services:
+      db:
+        image: postgres:16
+        ports:
+          5432:5432
+      env:
+        POSTGRES_NAME: ${{ env.POSTGRES_NAME }}
+        POSTGRES_USER: ${{ env.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+      # Postgresより先にDjangoが起動しないようヘルスチェックを使って起動順を制御
+      options: >-
+        --health-cmd "pg_isready"
+        --health-interval 10s
+        --health-timeout 5s
+        --health-retries 5
 
     steps:
     - uses: actions/checkout@v3
@@ -24,6 +51,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Migrate
+        run: |
+          python manage.py makemigrations --settings tsukepp.settings_test
+          python manage.py migrate --settings tsukepp.settings_test
     - name: Run Tests
       run: |
         python manage.py test tsuke.tests.test_sample --settings tsukepp.settings_test

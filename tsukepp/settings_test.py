@@ -2,6 +2,7 @@
 Django development settings for tsukepp project.
 """
 
+import os
 import socket  # For Django Debug Toolbar
 
 from .settings_common import *
@@ -21,10 +22,10 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'test_db',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': os.environ.get("POSTGRES_NAME"),
+        'HOST': os.environ.get("POSTGRES_HOST", "db"),
+        'USER': os.environ.get("POSTGRES_USER"),
+        'PASSWORD': os.environ.get("POSTGRES_PORT", 5432),
         'PORT': 5432,
     }
 }
