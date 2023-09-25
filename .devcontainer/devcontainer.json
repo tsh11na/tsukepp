@@ -27,8 +27,8 @@
 				"ms-python.pylint",
 				"batisteo.vscode-django",
 				"mhutchie.git-graph",
-				"junstyle.vscode-django-support",
-				"codezombiech.gitignore"
+				"codezombiech.gitignore",
+				"ms-python.isort"
 			],
 			"settings": {
 				"python.defaultInterpreterPath": "/usr/local/bin/python"

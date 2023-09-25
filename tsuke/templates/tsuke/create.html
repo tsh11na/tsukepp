@@ -9,14 +9,23 @@
     <div class="container">
         
         <div class="section-title">
-            <span>ツケる</span>
             <h2>ツケる</h2>
             <p>新しいツケを登録します</p>
         </div>
-        
+        {% if not form.is_valid %}
+          {% for field_errors in form.errors.values %}
+            {% for error in field_errors %}
+              <div class="alert alert-warning" role="alert">
+                {{ error }}
+              </div>
+            {% endfor %}
+          {% endfor %}
+        {% endif %}
+
         <div class="mt-5 mt-lg-0 d-flex align-items-stretch">
           <form method="post">
             {% csrf_token %}
+            <input type="hidden" name="submit_token" value="{{ submit_token }}" />
             <div class="row">
               <div class="form-group col-md-6">
                 <label for="amount">金額</label>
@@ -32,10 +41,11 @@
               </div>
               <div class="my-3">
               </div>
-                <div class="text-center"><button class="btn btn-outline-success btn-lg" type="submit">登録</button></div>
+                <div class="text-center"><button class="btn btn-outline-success btn-lg" type="submit" id="add-button">登録</button></div>
               </form>
           </div>
         </div>
       </section><!-- End Contact Section -->
+
 
 {% endblock contents %}

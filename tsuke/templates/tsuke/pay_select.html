@@ -6,9 +6,9 @@
 {% block contents %}
     <section id="about" class="about">
       <div class="container">
-      <form action="{% url 'tsuke:pay_confirm' %}" method="post">
+      <form method="post">
       {% csrf_token %}
-      <h3>清算するツケにチェックを入れてください。</h3>
+      <h4>清算するツケを選んでください。</h4>
        <!-- https://medium.com/@alfarhanzahedi/customizing-modelmultiplechoicefield-in-a-django-form-96e3ae7e1a07-->       
        <table id="unpaid-list" class="table table-hover">
          <thead>
@@ -22,16 +22,15 @@
             </tr>
           </thead>
           <tbody>
-            {% comment %} {% for tid, desc in form.tsuke_list.field.choices %} {% endcomment %}
-            {% for tsuke in tsuke_list %}
+            {% for choice in form.unpaid_tsukes %}
               <tr>
-                <td><input type="checkbox" name="tsuke_list" value={{ tsuke.id }} checked></td>
-                {% comment %} <td>{{ tsuke.id }}</td> {% endcomment %}
-                <td>{{ tsuke.amount }} </td>
-                <td>{{ tsuke.category }} </td>
-                <td>{{ tsuke.purchase_date|date:"y/n/j H:i" }}</td>
-                <td>{{ tsuke.note }}</td>
-                </td>
+                <td><input type="checkbox" id="{{ choice.data.attrs.id }}" name="{{ choice.data.name }}" value="{{ choice.data.value }}" checked class="row-checkbox"></td>
+                {% comment %} <td>{{ choice.data.value.instance.id }}</td> {% endcomment %}
+                <td>{{ choice.data.value.instance.amount }} </td>
+                <td>{{ choice.data.value.instance.category }} </td>
+                <td>{{ choice.data.value.instance.purchase_date|date:"y/n/j H:i" }}</td>
+                <td>{{ choice.data.value.instance.choice_label }}</td>
+              </td>
               </tr>
             {% endfor %}
           </tbody>
@@ -41,11 +40,11 @@
       </div>
     </div>
     </section>
-    <script> // from ChatGPT
+    <script>
       // チェックボックスの要素を取得
       const checkboxes = document.querySelectorAll('td:first-of-type input');
       const totalDisplay = document.getElementById('total');
-      const amountIndex = document.getElementById("amount-col").cellIndex // 金額の列番号
+      const amountIndex = document.getElementById("amount-col").cellIndex; // 金額の列番号
 
       // 合計を計算する関数
       function calculateTotal() {
@@ -66,6 +65,20 @@
       checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', calculateTotal);
       });
+
+      // 行をクリックしたときにチェックボックスをトグルする
+      const rows = document.querySelectorAll('tr');
+      rows.forEach(row => {
+        row.addEventListener('click', (event) => {
+          if (event.target.tagName.toLowerCase() !== 'input') {
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            calculateTotal();
+          }
+        });
+      });
+      // 初期表示
       calculateTotal();
+
     </script>
 {% endblock contents %}

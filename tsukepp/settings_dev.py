@@ -93,3 +93,5 @@ LOGGING = {
 
 EMAILBACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+SECRET_KEY="secret_key"

@@ -7,13 +7,14 @@
 {% endblock header %}
 
 {% block contents %}
+<main id="main">
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center">
+  <section id="hero">
 
-    {% if user.id %}
+    {% if user.is_authenticated %}
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+        <div class="col-lg-6 pt-0 pt-lg-0">
           <h1>ようこそ {{user}} さん </h1>
           <h2>現在のツケ 
             {% if unpaid_amount.amount__sum %}
@@ -32,27 +33,27 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-          <h1>Tsukeppへようこそ！ </h1>
-          <h2></h2>
-            <div class="d-flex">
-              <a href={% url "account_login" %} class="btn-get-started scrollto">ログイン</a>
+          <h1>Welcome!</h1>
+          <h2>ツケ管理アプリ Tsukepp にようこそ！</h2>
+            <div class="d-flex justify-content-left">
+                {% comment %} <div class="btn-group"> {% endcomment %}
+                <a href={% url "account_login" %} class="btn-2 m-1">ログイン</a>
+                <a href={% url "account_signup" %} class="btn-get-started m-1">登録</a>
+                {% comment %} </div> {% endcomment %}
             </div>
         </div>
       </div>
     </div>
     {% endif %}
-
-  </section><!-- End Hero -->
+  </section>
   
-    <main id="main">
     <!-- ======= Featured Services Section ======= -->
     <section id="menu" class="featured-services">
       <div class="container">
-
         <div class="row">
           <div class="col-lg-4 col-md-6">
             <div class="icon-box">
-              <div class="icon"><i class="bi bi-laptop"></i></div>
+              <div class="icon"><i class="bi bi-plus-square-fill"></i></div>
               <h4><b><a href={% url "tsuke:create" %}>ツケる</a></b></h4>
               <p class="description">新しいツケを登録する</p>
             </div>
@@ -66,7 +67,7 @@
           </div>
           <div class="col-lg-4 col-md-6 mt-4 mt-lg-0">
             <div class="icon-box">
-              <div class="icon"><i class="bi bi-clipboard-data"></i></div>
+              <div class="icon"><i class="bi bi-clock-history"></i></div>
               <h4><b><a href={% url "tsuke:history" %}>履歴を見る</a></b></h4>
               <p class="description">ツケの記録を確認する</p>
             </div>
