@@ -12,13 +12,14 @@ class TsukeCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         for field in self.base_fields.values():
             field.widget.attrs.update({"class":"form-control"})
-        request = kwargs.pop("request")
+        request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
         # self.fields['amount'].widget.attrs.update({'step': '10'})  # NOTE: 10円単位しか受け付けなくなるので廃止
         # フィールドに初期値を設定
         # https://omkz.net/djagno-parameter-modelform/
-        self.fields['amount'].initial = request.GET.get('amount', 0)
-        self.fields['category'].initial = request.GET.get('category_id', 0)
+        if request is not None:
+            self.fields['amount'].initial = request.GET.get('amount', 0)
+            self.fields['category'].initial = request.GET.get('category_id', 0)
 
 
 class TsukePaySelectForm(forms.Form):
