@@ -13,11 +13,15 @@
             {{ form.as_p }}
 
             {% if redirect_field_value %}
-                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
             <button class="btn btn-danger" type="submit">ログアウト</button>
-            <button class="btn btn-light" href={% url "tsuke:index" %}>戻る</button>
         </form>
+    </div>
+</section>
+<section class="about">
+    <div class="container">
+        <a class="btn btn-light" href={% url "tsuke:index" %}>戻る</a>
     </div>
 </section>
 {% endblock contents %}
