@@ -52,9 +52,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Migrate
-        run: |
-          python manage.py makemigrations --settings tsukepp.settings_test
-          python manage.py migrate --settings tsukepp.settings_test
+      run: |
+        python manage.py makemigrations --settings tsukepp.settings_test
+        python manage.py migrate --settings tsukepp.settings_test
     - name: Run Tests
       run: |
         python manage.py test tsuke.tests.test_sample --settings tsukepp.settings_test
