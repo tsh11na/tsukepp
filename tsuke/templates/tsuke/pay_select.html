@@ -8,6 +8,7 @@
       <div class="container">
       <form method="post">
       {% csrf_token %}
+      {% if form.is_valid %}
       <h4>清算するツケを選んでください。</h4>
        <!-- https://medium.com/@alfarhanzahedi/customizing-modelmultiplechoicefield-in-a-django-form-96e3ae7e1a07-->       
        <table id="unpaid-list" class="table table-hover">
@@ -30,7 +31,6 @@
                 <td>{{ choice.data.value.instance.category }} </td>
                 <td>{{ choice.data.value.instance.purchase_date|date:"y/n/j H:i" }}</td>
                 <td>{{ choice.data.value.instance.note }}</td>
-              </td>
               </tr>
             {% endfor %}
           </tbody>
@@ -38,6 +38,9 @@
         <h4><b>合計金額: <span id="total"></span> 円</b></h4>
         <button type="submit" class="btn btn-primary">決定</button>
       </div>
+      {% else %}
+      <h4>清算可能なツケはありません。</h4>
+      {% endif %}
     </div>
     </section>
     <script>

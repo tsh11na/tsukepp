@@ -16,6 +16,7 @@
   <main id="main">
     <section id="about" class="about">
       <div class="container">
+        {% if tsuke_list %}
         <div class="table-responsive">
           <table id="history" class="table table-hover">
             <thead>
@@ -84,6 +85,9 @@
             </ul>
           {% endif %}
         </nav>
+        {% else %}
+        <h4>履歴はありません。</h4>
+        {% endif %}
       </div>
     </section>
     {% comment %} <script>$("#history").DataTable();</script> {% endcomment %}
