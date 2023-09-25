@@ -30,16 +30,16 @@ jobs:
         image: postgres:16
         ports:
           - 5432:5432
-      env:
-        POSTGRES_NAME: ${{ env.POSTGRES_NAME }}
-        POSTGRES_USER: ${{ env.POSTGRES_USER }}
-        POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-      # Postgresより先にDjangoが起動しないようヘルスチェックを使って起動順を制御
-      options: >-
-        --health-cmd "pg_isready"
-        --health-interval 10s
-        --health-timeout 5s
-        --health-retries 5
+        env:
+          POSTGRES_NAME: ${{ env.POSTGRES_NAME }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        # Postgresより先にDjangoが起動しないようヘルスチェックを使って起動順を制御
+        options: >-
+          --health-cmd "pg_isready"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v3
