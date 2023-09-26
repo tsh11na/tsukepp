@@ -8,7 +8,7 @@
       <div class="container">
       <form method="post">
       {% csrf_token %}
-      {% if form.is_valid %}
+      {% if form.fields.unpaid_tsukes.queryset %}
       <h4>清算するツケを選んでください。</h4>
        <!-- https://medium.com/@alfarhanzahedi/customizing-modelmultiplechoicefield-in-a-django-form-96e3ae7e1a07-->       
        <table id="unpaid-list" class="table table-hover">
