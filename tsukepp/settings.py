@@ -1,5 +1,7 @@
 """Heroku用環境設定"""
 
+import os
+
 import dj_database_url
 import django_heroku
 
@@ -28,6 +30,21 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 #         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
 #     },
 # }
+
+
+# allauth
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY  
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 django_heroku.settings(locals())
 

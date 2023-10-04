@@ -1,13 +1,15 @@
 """
 Django development settings for tsukepp project.
 """
-
+import os
 import socket  # For Django Debug Toolbar
+
+from dotenv import load_dotenv
 
 from .settings_common import *
 
-# from decouple import config
-
+# Load .env file
+load_dotenv()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -91,7 +93,22 @@ LOGGING = {
     },
 }
 
-EMAILBACKEND = 'django.core.mail.backends.console.EmailBackend'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+# allauth
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Email
+try:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']
+    DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
+    EMAIL_HOST = 'smtp.sendgrid.net'
+    EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
+    EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+except KeyError:
+    EMAILBACKEND = 'django.core.mail.backends.console.EmailBackend'
+    ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 SECRET_KEY="secret_key"
