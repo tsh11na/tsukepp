@@ -93,10 +93,6 @@ LOGGING = {
     },
 }
 
-# allauth
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_EMAIL_REQUIRED = True
-
 # Email
 try:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -108,7 +104,7 @@ try:
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
 except KeyError:
-    EMAILBACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 SECRET_KEY="secret_key"
