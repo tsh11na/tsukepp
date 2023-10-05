@@ -1,0 +1,38 @@
+{% extends "tsuke/base.html" %}
+
+{% load i18n %}
+{% load account %}
+
+{% block head_title %}メールアドレスの確認 | Tsukepp{% endblock %}
+
+
+{% block contents %}
+<section>
+    <div class="container">
+        <h3>メールアドレスの確認</h3>
+
+        {% if confirmation %}
+
+        {% user_display confirmation.email_address.user as user_display %}
+
+        {% if can_confirm %}
+        <p><a href="mailto:{{ confirmation.email_address.email }}">{{ confirmation.email_address.email }}</a> が {{ user_display }} さんのアドレスで間違いなければ、「確認」を押してください。</p>
+
+        <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+        {% csrf_token %}
+            <button type="submit" class="btn btn-secondary">確認</button>
+        </form>
+        {% else %}
+        {{ email }} はすでに他のアカウントで使用されています。</p>
+        {% endif %}
+
+        {% else %}
+
+        {% url 'account_email' as email_url %}
+
+        <p>{% blocktrans %}このEメール確認リンクは有効期限が切れているか、無効です。新たに<a href="{{ email_url }}">確認メールを発行</a>してください。{% endblocktrans %}</p>
+
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
