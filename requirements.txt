@@ -5,7 +5,11 @@ django-debug-toolbar
 pylint-django
 psycopg2-binary
 python-decouple
+python-dotenv
 
 # for heroku
 gunicorn
 django-heroku
+sendgrid
+django-crispy-forms
+crispy-bootstrap5

@@ -1,5 +1,6 @@
 {% extends "tsuke/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block active_signup %}active{% endblock active_signup %}
 
@@ -9,8 +10,11 @@
         <h1>サインアップ</h1>
         <form action={% url "account_signup" %} method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-
+            <div class="row">
+                <div class="col-md-6 col-lg-4">
+            {{ form|crispy }}
+                </div>
+            </div>
             {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}

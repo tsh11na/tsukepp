@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    # bootstrap
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -126,4 +129,10 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = 'tsuke:index'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
-# ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Tsukepp] "
+
+# crispy-forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
