@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.utils import timezone
 
 from .models import Tsuke
 
@@ -22,12 +23,14 @@ def settle(tsuke_ids):
     try: # 更新処理
         # 決済対象のツケを取得
         checking_tsuke_list = Tsuke.objects.filter(id__in=tsuke_ids)
+        now = timezone.now()
 
         # 清算済に変更
         for tsuke in checking_tsuke_list:
             tsuke.is_paid = True
+            tsuke.payment_date = now
 
-        Tsuke.objects.bulk_update(checking_tsuke_list, fields=["is_paid"])
+        Tsuke.objects.bulk_update(checking_tsuke_list, fields=["is_paid", "payment_date"])
 
     except(KeyError, Tsuke.DoesNotExist):
         # TODO エラー処理
