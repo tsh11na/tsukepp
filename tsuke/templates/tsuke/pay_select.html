@@ -6,6 +6,17 @@
 {% block contents %}
     <section id="about" class="about">
       <div class="container">
+        <div class="row">
+          {% if messages %}
+          <ul class="list-unstyled">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+      <div class="container">
       <form method="post">
       {% csrf_token %}
       {% if form.fields.unpaid_tsukes.queryset %}
