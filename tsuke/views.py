@@ -1,5 +1,6 @@
 from typing import Any
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
@@ -68,6 +69,7 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
             tsuke = form.save(commit=False)
             tsuke.user = self.request.user
             tsuke.save()
+            messages.success(self.request, f"{tsuke}を登録しました。")
             return super().form_valid(form)
         else:
             return redirect("tsuke:index")
