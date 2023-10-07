@@ -1,5 +1,6 @@
 from typing import Any
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
@@ -68,6 +69,7 @@ class TsukeCreateView(LoginRequiredMixin, generic.CreateView):
             tsuke = form.save(commit=False)
             tsuke.user = self.request.user
             tsuke.save()
+            messages.success(self.request, f"{tsuke}を登録しました。")
             return super().form_valid(form)
         else:
             return redirect("tsuke:index")
@@ -89,6 +91,7 @@ def tsuke_pay_select(request):
             return redirect("tsuke:pay_confirm")
         
         else:
+            messages.warning(request, "清算するツケを1つ以上選んでください。")
             return render(request, "tsuke/pay_select.html", {"form": form})
     
     # GET
@@ -100,7 +103,6 @@ class TsukePayConfirmView(LoginRequiredMixin, generic.ListView):
     """清算確認画面"""
     model = Tsuke
     template_name = 'tsuke/pay_confirm.html'
-    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -113,6 +115,8 @@ class TsukePayConfirmView(LoginRequiredMixin, generic.ListView):
 
     def post(self, request):
         selected_ids = self.request.session.get("selected_ids", [])
+        tsukes_to_pay = Tsuke.objects.filter(user=self.request.user, id__in=selected_ids)
+        total_amount = sum([t.amount for t in tsukes_to_pay])
 
         # 決済処理
         result = settle(selected_ids)
@@ -120,8 +124,9 @@ class TsukePayConfirmView(LoginRequiredMixin, generic.ListView):
 
         if result:
             # TODO 決済成功のメッセージ
+            messages.success(request, f"{total_amount}円（{len(selected_ids)}件）のツケを支払いました。")
             return redirect("tsuke:index")
         else:
             # TODO 決済失敗のメッセージ
+            messages.error(request, "ツケの支払いに失敗しました。システムエラーと思われる場合は管理者に連絡してください。")
             return redirect("tsuke:index")
-
