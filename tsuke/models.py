@@ -23,7 +23,7 @@ class ItemCategory(models.Model):
 class Tsuke(models.Model):
     """1回のツケ"""
 
-    user = models.ForeignKey(CustomUser, verbose_name="ユーザ", on_delete=models.PROTECT)
+    user = models.ForeignKey(CustomUser, verbose_name="ユーザ", on_delete=models.CASCADE)
     purchase_date = models.DateTimeField(verbose_name="購入日時", auto_now_add=True)
     amount = models.PositiveSmallIntegerField(
         verbose_name="金額",
