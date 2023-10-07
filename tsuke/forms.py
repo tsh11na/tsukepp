@@ -18,8 +18,8 @@ class TsukeCreateForm(forms.ModelForm):
         # フィールドに初期値を設定
         # https://omkz.net/djagno-parameter-modelform/
         if request is not None:
-            self.fields['amount'].initial = request.GET.get('amount', 0)
-            self.fields['category'].initial = request.GET.get('category_id', 0)
+            self.fields['amount'].initial = request.GET.get('amount', None)
+            self.fields['category'].initial = request.GET.get('category_id', None)
 
 
 class TsukePaySelectForm(forms.Form):
@@ -34,4 +34,4 @@ class TsukePaySelectForm(forms.Form):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if user:  # 「対象のユーザかつ未払い」に絞り込む
-            self.fields['unpaid_tsukes'].queryset = Tsuke.objects.filter(user=user, is_paid=False)
+            self.fields['unpaid_tsukes'].queryset = Tsuke.objects.filter(user=user, is_paid=False).order_by('-purchase_date')
