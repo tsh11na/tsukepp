@@ -18,8 +18,8 @@ class TsukeCreateForm(forms.ModelForm):
         # フィールドに初期値を設定
         # https://omkz.net/djagno-parameter-modelform/
         if request is not None:
-            self.fields['amount'].initial = request.GET.get('amount', 0)
-            self.fields['category'].initial = request.GET.get('category_id', 0)
+            self.fields['amount'].initial = request.GET.get('amount', None)
+            self.fields['category'].initial = request.GET.get('category_id', None)
 
 
 class TsukePaySelectForm(forms.Form):
