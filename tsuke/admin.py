@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Tsuke, ItemCategory
+from .models import ItemCategory, Tsuke
 
 
 class ItemCategoryAdmin(admin.ModelAdmin):
@@ -8,7 +8,7 @@ class ItemCategoryAdmin(admin.ModelAdmin):
 
 
 class TsukeAdmin(admin.ModelAdmin):
-    list_display = ["purchase_date", "amount", "user", "note"]
+    list_display = ["purchase_date", "amount", "user", "note", "payment_date"]
 
 
 admin.site.register(ItemCategory, ItemCategoryAdmin)
