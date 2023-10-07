@@ -24,6 +24,11 @@ a:hover {
   text-decoration: none;
 }
 
+/* アイコンの色を変更 */
+a:hover .icon i {
+  color: #206bfb;
+}
+
 h1,
 h2,
 h3,
