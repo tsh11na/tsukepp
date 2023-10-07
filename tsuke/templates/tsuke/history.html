@@ -2,22 +2,25 @@
 {% load static %}
 
 {% block title %}
-  履歴 | Tsukepp
+履歴 | Tsukepp
 {% endblock %}
 
 {% block head %}
-  <!-- DataTables (not working) -->
-  {% comment %} <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script> {% endcomment %}
-  {% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" /> {% endcomment %}
-  {% comment %} <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> {% endcomment %}
+<!-- DataTables (not working) -->
+{% comment %}
+<script defer src="https://code.jquery.com/jquery-3.7.0.js"></script> {% endcomment %}
+{% comment %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" /> {% endcomment %}
+{% comment %}
+<script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> {% endcomment %}
 {% endblock %}
 
 {% block contents %}
-  <main id="main">
-    <section id="about" class="about">
-      <div class="container">
-        {% if tsuke_list %}
-        <div class="table-responsive">
+<main id="main">
+  <section id="about" class="about">
+    <div class="container">
+      {% if tsuke_list %}
+      <!-- <div class="table-responsive">
           <table id="history" class="table table-hover">
             <thead>
               <tr>
@@ -26,6 +29,7 @@
                 <th>品目</th>
                 <th>メモ</th>
                 <th>清算</th>
+                <th>清算日時</th>
               </tr>
             </thead>
             <tbody>
@@ -42,54 +46,77 @@
                       未
                     {% endif %}
                   </td>
+                  <td>{{ tsuke.payment_date|date:'y/n/j H:i' }}</td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
+        </div> -->
+      <div class="card-deck">
+        {% for tsuke in tsuke_list %}
+        <div class="card border-0">
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <div class="badge rounded-pill text-bg-secondary">ツケID: {{ tsuke.id }}</div>
+              <li class="list-group-item">日時: {{ tsuke.purchase_date|date:'Y/n/j H:i' }}</h5>
+              <li class="list-group-item">金額: {{ tsuke.amount }}円</li>
+              <li class="list-group-item">品目: {{ tsuke.category }}</li>
+              <li class="list-group-item">メモ: {{ tsuke.note }}</li>
+              <li class="list-group-item">
+                清算:
+                {% if tsuke.is_paid %}
+                <img src="/static/admin/img/icon-yes.svg" alt="True"> ({{ tsuke.payment_date|date:'Y/n/j H:i' }})
+                {% else %} <img src="/static/admin/img/icon-no.svg" alt="False"> {% endif %}
+              </li>
+          </div>
+          </ul>
         </div>
-        <!-- ページネーション -->
-        <nav aria-label="Page navigation example">
-          {% if is_paginated %}
-            <ul class="pagination justify-content-cente">
-              {% if page_obj.has_previous %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}"><span aria-hidden="true">&laquo;</span></a>
-                </li>
-              {% else %}
-                <li class="page-item disabled">
-                  <a class="page-link"><span aria-hidden="true">&laquo;</span></a>
-                </li>
-              {% endif %}
-              <!-- ページ数標示 -->
-              {% for page_num in page_obj.paginator.page_range %}
-                {% if page_obj.number == page_num %}
-                  <li class="page-item active">
-                    <a class="page-link" href="#">{{ page_num }}</a>
-                  </li>
-                {% else %}
-                  <li class="page-item">
-                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-                  </li>
-                {% endif %}
-              {% endfor %}
-              <!-- 次ページへのリンク -->
-              {% if page_obj.has_next %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.next_page_number }}"><span aria-hidden="true">&raquo;</span></a>
-                </li>
-              {% else %}
-                <li class="page-item disabled">
-                  <a class="page-link"><span aria-hidden="true">&raquo;</span></a>
-                </li>
-              {% endif %}
-            </ul>
-          {% endif %}
-        </nav>
-        {% else %}
-        <h4>履歴はありません。</h4>
-        {% endif %}
+        {% endfor %}
       </div>
-    </section>
-    {% comment %} <script>$("#history").DataTable();</script> {% endcomment %}
-  </main>
+  <!-- </section> -->
+  <!-- <section id="about" class="about"> -->
+    <!-- ページネーション -->
+    <nav aria-label="Page navigation" >
+      {% if is_paginated %}
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}"><span
+              aria-hidden="true">&laquo;</span></a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link"><span aria-hidden="true">&laquo;</span></a>
+        </li>
+        {% endif %}
+        <!-- ページ数標示 -->
+        {% for page_num in page_obj.paginator.page_range %}
+        {% if page_obj.number == page_num %}
+        <li class="page-item active">
+          <a class="page-link" href="#">{{ page_num }}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        <!-- 次ページへのリンク -->
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}"><span aria-hidden="true">&raquo;</span></a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link"><span aria-hidden="true">&raquo;</span></a>
+        </li>
+        {% endif %}
+      </ul>
+      {% endif %}
+    </nav>
+    {% else %}
+    <h4>履歴はありません。</h4>
+    {% endif %}
+  </section>
+</main>
 {% endblock %}
