@@ -40,5 +40,6 @@ jobs:
         # https://github.com/release-drafter/release-drafter/issues/1125
         with:
           commitish: main
+          include-pre-releases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
