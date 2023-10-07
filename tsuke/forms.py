@@ -34,4 +34,4 @@ class TsukePaySelectForm(forms.Form):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
         if user:  # 「対象のユーザかつ未払い」に絞り込む
-            self.fields['unpaid_tsukes'].queryset = Tsuke.objects.filter(user=user, is_paid=False)
+            self.fields['unpaid_tsukes'].queryset = Tsuke.objects.filter(user=user, is_paid=False).order_by('-purchase_date')
