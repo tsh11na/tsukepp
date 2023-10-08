@@ -27,7 +27,7 @@
               <li class="list-group-item">
                 清算:
                 {% if tsuke.is_paid %}
-                <img src="/static/admin/img/icon-yes.svg" alt="True"> ({{ tsuke.payment_date|date:'Y/n/j H:i' }})
+                <img src="/static/admin/img/icon-yes.svg" alt="True"> {{ tsuke.payment_date|date:'Y/n/j H:i' }}
                 {% else %} <img src="/static/admin/img/icon-no.svg" alt="False"> {% endif %}
               </li>
           </div>
