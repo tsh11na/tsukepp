@@ -8,7 +8,6 @@
 
 {% block contents %}
 <main id="main">
-  <!-- ======= Hero Section ======= -->
   <section id="hero">
     <div class="container">
       <div class="row">
@@ -28,7 +27,7 @@
         {% if not has_verified_email %}
         <ul class="list-unstyled">
           <li class="alert alert-warning">
-            メールアドレスの認証が済んでいません。Tsukeppから届いたメールに記載されているリンクにアクセスしてください。
+            メールアドレスの認証が済んでいません。Tsukeppから届いたメールに記載されているリンクにアクセスしてください。再送したい場合は<a href="{% url 'account_email' %}">こちら</a>
           </li>
         </ul>
         {% endif %}
@@ -57,7 +56,6 @@
                 {% comment %} <div class="btn-group"> {% endcomment %}
                 <a href={% url "account_login" %} class="btn-2 m-1">ログイン</a>
                 <a href={% url "account_signup" %} class="btn-get-started m-1">登録</a>
-                {% comment %} </div> {% endcomment %}
             </div>
         </div>
       </div>
@@ -65,8 +63,7 @@
     {% endif %}
   </section>
 
-    <!-- ======= Featured Services Section ======= -->
-    <section id="menu" class="featured-services">
+    <section class="featured-services">
       <div class="container">
         <div class="row">
           <div class="col-lg-4 col-md-6">
@@ -98,9 +95,6 @@
             </div>
           </div>
       </div>
-    </section><!-- End Featured Services Section -->
-
-    <section class="counts">
     </section>
   </main>
 {% endblock contents %}

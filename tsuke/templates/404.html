@@ -2,23 +2,15 @@
 {% load static %}
 
 {% block title %}
-  Not found | Tsukepp
-{% endblock %}
-
-{% block head %}
-  <!-- DataTables (not working) -->
-  {% comment %} <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script> {% endcomment %}
-  {% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" /> {% endcomment %}
-  {% comment %} <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> {% endcomment %}
+Not found | Tsukepp
 {% endblock %}
 
 {% block contents %}
-  <main id="main">
-    <section id="about" class="about">
-      <div class="row">
-        <h3>ページが見つかりません</h3>
-      </div>
-    </section>
-    {% comment %} <script>$("#history").DataTable();</script> {% endcomment %}
-  </main>
+<main id="main">
+  <section>
+    <div class="container">
+      <h3>ページが見つかりません</h3>
+    </div>
+  </section>
+</main>
 {% endblock %}
