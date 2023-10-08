@@ -1,5 +1,6 @@
 from typing import Any
 
+from allauth.account.utils import has_verified_email
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -30,6 +31,7 @@ class IndexView(generic.TemplateView):
 
         if self.request.user.is_authenticated:
             context["user"] = self.request.user
+            context["has_verified_email"] = has_verified_email(self.request.user)
         else:
             context["user"] = None
         return context

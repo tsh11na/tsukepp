@@ -25,6 +25,13 @@
     {% if user.is_authenticated %}
     <div class="container">
       <div class="row">
+        {% if not has_verified_email %}
+        <ul class="list-unstyled">
+          <li class="alert alert-warning">
+            メールアドレスの認証が済んでいません。Tsukeppから届いたメールに記載されているリンクにアクセスしてください。
+          </li>
+        </ul>
+        {% endif %}
         <div class="col-lg-12 pt-0 pt-lg-0">
           <h1>ようこそ {{user}} さん </h1>
           <h2>現在のツケ 
