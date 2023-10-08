@@ -6,12 +6,15 @@
 {% endblock %}
 
 {% block contents %}
+<section>
   <div class="container">
-    <section id="about" class="about">
         <form method="post">
           {% csrf_token %}
   
-          <h4>以下のツケを清算します。よろしいですか？</h4>
+          <div class="section-title">
+            <h2>清算確認</h2>
+            <p>以下のツケを清算してよろしいですか？</p>
+        </div>
           <table id="pay-list" class="table table-hover">
             <thead>
               <tr>
@@ -33,7 +36,7 @@
             </tbody>
           </table>
           <h4><b>合計金額: <span id="total"></span> 円</b></h4>
-          <button type="submit" class="btn btn-primary">清算する</button>
+          <button type="submit" class="btn btn-primary">清算</button>
         </form>
       </section>
       <script>
