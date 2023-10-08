@@ -137,6 +137,10 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Tsukepp] "
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 
+ACCOUNT_FORMS = {
+    'login': 'accounts.forms.CustomLoginForm',
+}
+
 # crispy-forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
