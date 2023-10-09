@@ -153,3 +153,5 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert alert-warning',
     messages.ERROR: 'alert alert-danger',
 }
+
+SITE_DOMAIN = os.getenv("SITE_DOMAIN")
