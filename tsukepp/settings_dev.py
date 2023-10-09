@@ -107,5 +107,3 @@ except KeyError:
     ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 SECRET_KEY="secret_key"
-
-SITE_DOMAIN = os.getenv("SITE_DOMAIN")
