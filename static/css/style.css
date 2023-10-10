@@ -9,9 +9,14 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+html {
+  height: 100%;
+}
+
 body {
   font-family: sans-serif;
   color: #444444;
+  height: 100%;
 }
 
 a {
@@ -646,7 +651,8 @@ section {
   background-color: #f3f4f6;
   color: #5f687b;
   font-size: 14px;
-  position: relative;
+  position: sticky;
+  top: 100vh;
 }
 
 #footer .footer-top {
