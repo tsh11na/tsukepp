@@ -139,6 +139,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Tsukepp] "
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 
 ACCOUNT_FORMS = {
+    'signup': 'accounts.forms.CustomSignupForm',
     'login': 'accounts.forms.CustomLoginForm',
 }
 
@@ -155,3 +156,5 @@ MESSAGE_TAGS = {
 }
 
 SITE_DOMAIN = os.getenv("SITE_DOMAIN")
+
+TSUKEPP_ACTIVATION_KEY = os.getenv("TSUKEPP_ACTIVATION_KEY", "")
