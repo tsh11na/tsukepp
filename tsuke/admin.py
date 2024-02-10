@@ -61,7 +61,7 @@ class TsukeTotalAdmin(admin.ModelAdmin):
         user_list = [tsuke.user for tsuke in qs]
         # ユーザごとの合計金額を取得
         total_amount = {
-            user: qs.filter(user=user).aggregate(**metrics)["total_amount"]
+            user: qs.filter(user=user, is_paid=False).aggregate(**metrics)["total_amount"] or 0
             for user in user_list
         }
 
