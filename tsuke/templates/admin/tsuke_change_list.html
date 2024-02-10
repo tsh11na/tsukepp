@@ -1,0 +1,28 @@
+{% extends "admin/change_list.html" %}
+
+{% block content_title %}
+  <h1>
+    ツケ一覧
+    <!-- {% for x in cl.filter_specs %}
+        {% endfor %} -->
+    {% for filter in cl.filter_specs %}
+        {% if filter.lookup_choices and filter.lookup_val %}
+            | {{ filter.lookup_title }} = 
+            {% for choice in filter.lookup_choices %}
+                {% if choice.0|stringformat:"s" == filter.lookup_val %}
+                    {{ choice.1 }}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    {% if "is_paid__exact" in filters %}
+        {% if filters.is_paid__exact.0 == "0" %}
+            | 未清算
+        {% elif filters.is_paid__exact.0 == "1" %}
+            | 清算済
+        {% endif %}
+    {% endif %}
+  </h1>
+{% endblock %}
+
+<!-- タイトル以外は変更しない -->
