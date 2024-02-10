@@ -20,6 +20,7 @@ class ItemCategory(models.Model):
     def __str__(self):
         return str(self.category)
 
+
 class Tsuke(models.Model):
     """1回のツケ"""
 
@@ -40,3 +41,12 @@ class Tsuke(models.Model):
 
     def __str__(self):
         return f"{self.amount}円（{self.category}）"
+
+
+class TsukeTotal(Tsuke):
+    """各ユーザのツケの合計額を表示する"""
+
+    class Meta:
+        proxy = True
+        verbose_name = "集計"
+        verbose_name_plural = "集計"
