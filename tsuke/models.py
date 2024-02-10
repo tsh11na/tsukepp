@@ -29,7 +29,7 @@ class Tsuke(models.Model):
     amount = models.PositiveSmallIntegerField(
         verbose_name="金額",
         validators=[positive_validator])
-    is_paid = models.BooleanField(verbose_name="清算済", default=False)
+    is_paid = models.BooleanField(verbose_name="清算", default=False)
     category = models.ForeignKey(ItemCategory, verbose_name="品目", on_delete=models.SET_NULL, null=True)
     payment_date = models.DateTimeField(verbose_name="清算日時", null=True)
     note = models.CharField(verbose_name="メモ", max_length=50, blank=True)
@@ -44,7 +44,7 @@ class Tsuke(models.Model):
 
 
 class TsukeTotal(Tsuke):
-    """各ユーザのツケの合計額を表示する"""
+    """各ユーザのツケの合計額"""
 
     class Meta:
         proxy = True
