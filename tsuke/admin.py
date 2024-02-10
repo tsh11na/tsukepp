@@ -19,6 +19,7 @@ class TsukeAdmin(admin.ModelAdmin):
     change_form_template = "admin/tsuke_change_form.html"  # 詳細画面
 
     def has_add_permission(self, *args, **kwargs):
+        """ツケは登録ページからしか追加できない"""
         return False
     
     def changelist_view(self, request, extra_context=None):
@@ -43,6 +44,7 @@ class TsukeTotalAdmin(admin.ModelAdmin):
     change_list_template = "admin/tsuketotal_change_list.html"
 
     def has_add_permission(self, *args, **kwargs):
+        """ツケの合計は変更できない"""
         return False
 
     def changelist_view(self, request, extra_context=None):
