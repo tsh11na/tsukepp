@@ -1,10 +1,7 @@
-<h1>集計</h1>
-
 {% extends "admin/change_list.html" %}
-<!-- {% load admin_urls %} -->
 
 {% block content_title %}
-  <h1>ユーザごとのツケ合計額</h1>
+  <h1>未清算ツケ金額の一覧</h1>
 {% endblock %}
 
 {% block result_list %}
@@ -12,13 +9,13 @@
     <thead>
       <tr>
         <th>ユーザ</th>
-        <th>合計</th>
+        <th>未精算額合計</th>
       </tr>
     </thead>
     <tbody>
       {% for user, amount in summary.items %}
       <tr>
-        <td><a href="{% url 'admin:tsuke_tsuke_changelist' %}?user__id__exact={{user.id}}">{{ user }}</a></td>
+        <td><a href="{% url 'admin:tsuke_tsuke_changelist' %}?is_paid__exact=0&user__id__exact={{user.id}}">{{ user }}</a></td>
         <td>{{ amount }}</td>
       </tr>
       {% endfor %}
