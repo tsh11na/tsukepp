@@ -1,0 +1,23 @@
+# Base image
+FROM python:3.11-slim-bullseye
+
+ENV PYTHONUNBUFFERED 1
+
+# Install required Python dependencies
+COPY requirements_base.txt /tmp/pip-tmp/
+RUN pip install --no-cache-dir -r /tmp/pip-tmp/requirements_base.txt \
+    && rm -rf /tmp/pip-tmp
+
+# Create a non-root user for production use and run the app under this user
+# RUN groupadd --gid 1000 appuser \
+    # && useradd --uid 1000 --gid appuser --create-home appuser
+
+# Switch to the new user
+# USER appuser
+
+# Set the working directory for the application and copy the application code
+WORKDIR /workspaces
+COPY . .
+
+# Define the entry point for the application
+# CMD ["python", "manage.py", "runserver"]

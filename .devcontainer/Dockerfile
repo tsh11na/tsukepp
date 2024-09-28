@@ -7,8 +7,8 @@ ENV PYTHONUNBUFFERED 1
 #     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
 
 # [Optional] If your requirements rarely change, uncomment this section to add them to the image.
-COPY requirements.txt /tmp/pip-tmp/
-RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
+COPY requirements_base.txt /tmp/pip-tmp/
+RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements_base.txt \
    && rm -rf /tmp/pip-tmp
 
 # [Optional] Uncomment this section to install additional OS packages.
